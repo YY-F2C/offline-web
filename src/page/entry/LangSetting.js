@@ -1,19 +1,19 @@
-import React from 'react'
+import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import Tooltip from 'rc-tooltip'
-import { Globe } from 'react-feather'
-import { withTranslation } from 'react-i18next'
-import { withGlobalContextConsumer } from 'contexts/GlobalContext'
+import React from 'react'
+import {Globe} from 'react-feather'
+import {withTranslation} from 'react-i18next'
 
 const languages = {
   en: 'English',
-  zh: '中文'
+  zh: '中文',
 }
 
 const LangSetting = ({i18n, globalSettings, changeGlobalSetting}) => {
-  const { language } = globalSettings
+  const {language} = globalSettings
 
   const changeLanguage = e => {
-    const { value } = e.target
+    const {value} = e.target
     i18n.changeLanguage(value)
     changeGlobalSetting('language', value)
   }
@@ -25,7 +25,7 @@ const LangSetting = ({i18n, globalSettings, changeGlobalSetting}) => {
           <option value="en">English</option>
           <option value="zh">中文</option>
         </select>
-        <Globe size={14}/>
+        <Globe size={14} />
         <span>{languages[language]}</span>
       </a>
     </Tooltip>

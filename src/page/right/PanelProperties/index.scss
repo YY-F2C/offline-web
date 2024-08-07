@@ -1,7 +1,7 @@
 @import 'assets/tokens.scss';
-@import '~prismjs/themes/prism-tomorrow.css';
+@import 'prismjs/themes/prism-tomorrow.css';
 
-.right-props{
+.right-props {
   position: absolute;
   top: 0;
   left: 0;
@@ -11,24 +11,30 @@
   overflow: auto;
   z-index: 1;
   transition: transform 0.2s;
-  &-starting{
+
+  &-starting {
     transform: translateX(260px);
   }
+
   &-entering,
   &-entered {
     transform: translateX(0);
   }
+
   &-leaving,
-  &-leaved{
+  &-leaved {
     transform: translateX(260px);
   }
-  .props-section{
+
+  .props-section {
     padding: 12px;
     border-bottom: 1px solid #383941;
-    &:last-child{
+
+    &:last-child {
       border-bottom: none;
     }
-    .section-title{
+
+    .section-title {
       display: flex;
       align-items: center;
       margin: 0;
@@ -36,12 +42,15 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      .title-name{
+
+      .title-name {
         flex: 1;
       }
-      &.section-name{
+
+      &.section-name {
         margin: 0;
-        span{
+
+        span {
           flex: 1;
           margin-right: 6px;
           overflow: hidden;
@@ -49,36 +58,45 @@
         }
       }
     }
-    .section-helper{
+
+    .section-helper {
       font-size: 12px;
       color: rgba($color: #FFF, $alpha: 0.36);
+
       >span,
-      >svg{
+      >svg {
         display: inline-block;
         vertical-align: middle;
       }
     }
-    .section-items{
-      .item-block{
+
+    .section-items {
+      .item-block {
         margin-bottom: 6px;
-        &:last-child{
+
+        &:last-child {
           margin-bottom: 0;
         }
       }
     }
+
     &.props-strokes {
       .mixed-strokes {
         margin-top: 4px;
       }
     }
+
     &.props-component {
       .component-variants {
         margin-top: 4px;
+
         >li {
           margin-bottom: 4px;
+
           &:last-child {
             margin-bottom: 0;
           }
+
           >span {
             display: flex;
             padding: 2px 6px;
@@ -87,9 +105,11 @@
             transition: background 0.2s;
             overflow: hidden;
             cursor: pointer;
+
             &:hover {
               background-color: #1C1F2A;
             }
+
             .property-label {
               flex-shrink: 0;
               width: 60px;
@@ -103,24 +123,28 @@
         }
       }
     }
-    &.props-basic{
-      .section-items{
+
+    &.props-basic {
+      .section-items {
         display: flex;
         flex-flow: wrap;
         justify-content: space-between;
         width: 100%;
         font-size: 12px;
-        .copiable-input{
+
+        .copiable-input {
           flex: 0 1 47%;
         }
       }
     }
-    &.props-code{
-      .section-items{
+
+    &.props-code {
+      .section-items {
         position: relative;
         border-radius: 2px;
         background: $black-2;
-        .code-copy{
+
+        .code-copy {
           position: absolute;
           top: 8px;
           right: 6px;
@@ -129,11 +153,13 @@
           color: $white-36;
           cursor: pointer;
           transition: color 0.2s;
-          &:hover{
+
+          &:hover {
             color: $white-85;
           }
         }
-        .code-box{
+
+        .code-box {
           display: block;
           margin: 0;
           margin-right: 24px;
@@ -143,9 +169,11 @@
         }
       }
     }
-    &.props-export{
+
+    &.props-export {
       padding: 0;
-      .section-title{
+
+      .section-title {
         margin-bottom: 0;
         padding: 12px;
       }

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { withGlobalContextProvider } from 'contexts/GlobalContext'
-import i18n from '../i18n'
+import {withGlobalContextProvider} from 'contexts/GlobalContext'
+import React, {useEffect} from 'react'
+import {I18nextProvider} from 'react-i18next'
 import App from '../App'
+import i18n from '../i18n'
 
 const ContextedApp = withGlobalContextProvider(App)
 
-function Canvas ({
+function Canvas({
   pagedFrames,
   fileData,
   exportSettings,
@@ -16,13 +16,12 @@ function Canvas ({
   currentFrameId,
   versions,
   currentVersion,
-  onVersionChange
+  onVersionChange,
 }) {
-
   useEffect(() => {
-    document.body.classList.add('heron-handoff')
+    document.body.classList.add('f2c-handoff')
     return () => {
-      document.body.classList.remove('heron-handoff')
+      document.body.classList.remove('f2c-handoff')
     }
   }, [])
 
@@ -39,7 +38,7 @@ function Canvas ({
         versionData={{
           versions,
           currentVersion,
-          onVersionChange
+          onVersionChange,
         }}
       />
     </I18nextProvider>

@@ -8,21 +8,24 @@
   height: 32px;
   padding: 0;
   color: $white-65;
-  background-color:  #363945;
+  background-color: #363945;
   border: none;
   vertical-align: middle;
   transition: all 0.2s;
   cursor: pointer;
   z-index: 1000;
+
   &-left {
     right: -16px;
     border-radius: 0 6px 6px 0;
   }
+
   &-right {
     left: -16px;
     border-radius: 6px 0 0 6px;
   }
-  &:hover{
+
+  &:hover {
     color: #FFF;
     background: #222531;
   }

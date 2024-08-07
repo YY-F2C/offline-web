@@ -7,15 +7,17 @@
 @import './button.scss';
 @import './motion.scss';
 
-@import '~rc-tooltip/assets/bootstrap.css';
-@import '~rc-input-number/assets/index.css';
+@import 'rc-tooltip/assets/bootstrap.css';
+@import 'rc-input-number/assets/index.css';
 
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
 }
 
-body.heron-handoff {
+body.f2c-handoff {
   margin: 0;
   font-size: $font-size;
   font-family: $font-family;
@@ -23,31 +25,33 @@ body.heron-handoff {
   overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
-  
+
   * {
     box-sizing: border-box;
   }
-  
-  ul{
+
+  ul {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  
-  p{
+
+  p {
     margin: 0;
     padding: 0;
   }
-  
-  a{
+
+  a {
     color: $white-85;
     text-decoration: none;
-    &:hover{
+
+    &:hover {
       opacity: 0.86;
     }
-  }  
+  }
 }

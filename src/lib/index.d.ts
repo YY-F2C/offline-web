@@ -1,1 +1,1 @@
-declare module 'heron-handoff'
+declare module 'f2c-handoff'

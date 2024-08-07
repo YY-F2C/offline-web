@@ -1,15 +1,15 @@
-import React from 'react'
 import cn from 'classnames'
-import { X } from 'react-feather'
-import { withTranslation } from 'react-i18next'
+import React from 'react'
+import {X} from 'react-feather'
+import {withTranslation} from 'react-i18next'
 
-function Search ({visible, value, onChange, onClear, t}) {
-  function resetInput () {
+function Search({visible, value, onChange, onClear, t}) {
+  function resetInput() {
     onClear()
   }
 
-  function handleKeyDown (e) {
-    if (e.keyCode===27) {
+  function handleKeyDown(e) {
+    if (e.keyCode === 27) {
       onClear()
     }
   }
@@ -23,10 +23,7 @@ function Search ({visible, value, onChange, onClear, t}) {
         onKeyDown={handleKeyDown}
         placeholder={t('component placeholder')}
       />
-      {
-        value &&
-        <X size={14} className="filter-clear" onClick={resetInput}/>
-      }
+      {value && <X size={14} className="filter-clear" onClick={resetInput} />}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
+import Canvas from './canvas'
 import LeftPanel from './left'
 import RightPanels from './right'
-import Canvas from './canvas'
 import './main.scss'
 
 class Main extends React.Component {
@@ -17,19 +17,19 @@ class Main extends React.Component {
       hasElementSelected: false,
       closestComponent: null,
       siderCollapseFlag: false,
-      exportIds: []
+      exportIds: [],
     }
   }
   handleSelectFrameOrComponent = (currentId, currentImageUrl, pageId) => {
-    const { data, components, onNamesChange } = this.props
-    const { id } = this.state
-    if (id===currentId) return
-    const currentPage = pageId ? data.document.children.find(({id}) => id===pageId) : {}
-    const canvasData = (pageId ? currentPage.children : components).find(({id}) => id===currentId)
+    const {data, components, onNamesChange} = this.props
+    const {id} = this.state
+    if (id === currentId) return
+    const currentPage = pageId ? data.document.children.find(({id}) => id === pageId) : {}
+    const canvasData = (pageId ? currentPage.children : components).find(({id}) => id === currentId)
     this.setState({
       id: currentId,
       currentImageUrl,
-      canvasData
+      canvasData,
     })
     onNamesChange && onNamesChange(canvasData.name, currentPage.name)
     this.handleDeselect()
@@ -39,35 +39,42 @@ class Main extends React.Component {
       elementData,
       currentIndex: index,
       closestComponent,
-      hasElementSelected: true
+      hasElementSelected: true,
     })
   }
-  handleGetExports = (exportIds) => {
-    this.setState({ exportIds })
+  handleGetExports = exportIds => {
+    this.setState({exportIds})
   }
   handleDeselect = () => {
     this.setState({
-      hasElementSelected: false
+      hasElementSelected: false,
     })
   }
   handlePropsPanelLeave = () => {
     this.setState({
       elementData: null,
-      currentIndex: ''
+      currentIndex: '',
     })
   }
   handleSiderTransitionEnd = e => {
-    if (e.propertyName==='width') {
-      const { siderCollapseFlag } = this.state
+    if (e.propertyName === 'width') {
+      const {siderCollapseFlag} = this.state
       this.setState({
-        siderCollapseFlag: !siderCollapseFlag
+        siderCollapseFlag: !siderCollapseFlag,
       })
     }
   }
-  render () {
+  render() {
     const {
-      documentName, components, styles, exportSettings, versionData,
-      pagedFrames, mode, isMock, includeComponents
+      documentName,
+      components,
+      styles,
+      exportSettings,
+      versionData,
+      pagedFrames,
+      mode,
+      isMock,
+      includeComponents,
     } = this.props
     const {
       id,
@@ -78,7 +85,7 @@ class Main extends React.Component {
       currentIndex,
       closestComponent,
       hasElementSelected,
-      siderCollapseFlag
+      siderCollapseFlag,
     } = this.state
     return (
       <div className="app-main">
@@ -91,8 +98,7 @@ class Main extends React.Component {
           onFrameOrComponentChange={this.handleSelectFrameOrComponent}
           onSiderTransitionEnd={this.handleSiderTransitionEnd}
         />
-        {
-          canvasData &&
+        {canvasData && (
           <Canvas
             currentImageUrl={currentImageUrl}
             canvasData={canvasData}
@@ -103,7 +109,7 @@ class Main extends React.Component {
             onGetExports={this.handleGetExports}
             siderCollapseFlag={siderCollapseFlag}
           />
-        }
+        )}
         <RightPanels
           mode={mode}
           isMock={isMock}

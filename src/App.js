@@ -1,7 +1,7 @@
-import React from 'react'
-import Entry from 'page/entry'
 import Main from 'page/Main'
+import Entry from 'page/entry'
 import Header from 'page/header'
+import React from 'react'
 import 'assets/base.scss'
 import './app.scss'
 
@@ -10,12 +10,12 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     // const { isModule, fileData, exportSettings, pagedFrames, settings } = props
-    const { FILE_DATA, PAGED_FRAMES, SETTINGS } = window
-    const mode = !!FILE_DATA ? 'local' : 'online'
+    const {FILE_DATA, PAGED_FRAMES, SETTINGS} = window
+    const mode = FILE_DATA ? 'local' : 'online'
     const isMock = !props.isModule
-    let data = FILE_DATA || props.fileData || {},
-        pagedFrames = PAGED_FRAMES || props.pagedFrames || {},
-        settings = SETTINGS || props.settings || {}
+    const data = FILE_DATA || props.fileData || {},
+      pagedFrames = PAGED_FRAMES || props.pagedFrames || {},
+      settings = SETTINGS || props.settings || {}
 
     this.state = {
       mode,
@@ -25,11 +25,11 @@ class App extends React.Component {
       components: data.components || [],
       styles: data.styles || {},
       exportSettings: data.exportSettings || props.exportSettings || [],
-      includeComponents: (mode!=='local' && isMock) ? true : !!settings.includeComponents,
+      includeComponents: mode !== 'local' && isMock ? true : !!settings.includeComponents,
       // if local not show entry, if online depends on if mock
-      entryVisible: mode==='local' ? false : isMock,
+      entryVisible: mode === 'local' ? false : isMock,
       names: {},
-      backFromDemo: false
+      backFromDemo: false,
     }
     // 初始化全局 context
     props.initGlobalSettings(settings)
@@ -41,56 +41,60 @@ class App extends React.Component {
       components,
       styles,
       exportSettings,
-      pagedFrames
+      pagedFrames,
     })
   }
   handleComponentsOptionChange = includeComponents => {
-    this.setState({ includeComponents })
+    this.setState({includeComponents})
   }
   getNames = (frameName, pageName) => {
-    const { data } = this.state
+    const {data} = this.state
     this.setState({
       names: {
         documentName: data.name,
         pageName: pageName || data.document.children[0].name,
         frameName: frameName || data.document.children[0].children[0].name,
-        isComponent: !pageName
-      }
+        isComponent: !pageName,
+      },
     })
   }
   handleBack = () => {
-    const { onHeaderBack } = this.props
+    const {onHeaderBack} = this.props
     if (onHeaderBack) {
       onHeaderBack()
     } else {
       this.setState({
         entryVisible: true,
         backFromDemo: true,
-        names: {}
+        names: {},
       })
     }
   }
-  render () {
-    const { links, versionData } = this.props
+  render() {
+    const {links, versionData} = this.props
     const {
-      entryVisible, mode, isMock, includeComponents, data, components, styles,
-      exportSettings, pagedFrames, names, backFromDemo
+      entryVisible,
+      mode,
+      isMock,
+      includeComponents,
+      data,
+      components,
+      styles,
+      exportSettings,
+      pagedFrames,
+      names,
+      backFromDemo,
     } = this.state
     return (
       <div className="app-container">
-        <Header
-          mode={mode}
-          onBack={this.handleBack}
-          links={links||{}}
-          {...names}
-        />
-        {
-          entryVisible ?
+        <Header mode={mode} onBack={this.handleBack} links={links || {}} {...names} />
+        {entryVisible ? (
           <Entry
             onDataGot={this.handleDataGot}
             onComponentsOptionChange={this.handleComponentsOptionChange}
             backFromDemo={backFromDemo}
-          /> :
+          />
+        ) : (
           <Main
             mode={mode}
             isMock={isMock}
@@ -104,7 +108,7 @@ class App extends React.Component {
             versionData={versionData}
             {...names}
           />
-        }
+        )}
       </div>
     )
   }

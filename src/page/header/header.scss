@@ -1,106 +1,131 @@
 @import 'assets/tokens.scss';
 
-.app-header{
+.app-header {
   position: relative;
   display: flex;
   align-items: center;
   height: 40px;
   background: #191C28;
-  >*{
+
+  >* {
     z-index: 1;
   }
-  .header-divider{
+
+  .header-divider {
     width: 1px;
     height: 20px;
     background-color: $white-16;
   }
-  .header-logo{
+
+  .header-logo {
     padding: 5px 0;
     padding-left: 6px;
-    img{
+
+    img {
       display: block;
       height: 30px;
+      padding: 5px;
     }
   }
-  .header-back{
+
+  .header-back {
     padding: 8px;
     cursor: pointer;
     transition: background 0.2s;
-    &:hover{
+
+    &:hover {
       background: $black;
     }
-    svg{
+
+    svg {
       display: block;
     }
   }
-  .header-space{
+
+  .header-space {
     flex: 1;
   }
-  .header-filename{
+
+  .header-filename {
     padding: 0 10px;
     font-weight: bold;
   }
-  .header-pagename{
+
+  .header-pagename {
     position: absolute;
     left: 50%;
     line-height: 30px;
     text-align: center;
     font-weight: 500;
     transform: translateX(-50%);
-    >span{
+
+    >span {
       color: $white-36;
     }
   }
-  .header-operates{
+
+  .header-operates {
     display: flex;
     align-items: center;
-    span, a{
+
+    span,
+    a {
       display: inline-block;
       height: 40px;
       padding: 13px;
       transition: background 0.2s;
       cursor: pointer;
-      &:last-child{
+
+      &:last-child {
         margin-right: 0;
       }
-      &:hover{
+
+      &:hover {
         background: $black;
       }
     }
   }
 }
 
-.header-overlay{
-  .rc-tooltip-inner{
-    padding: 20px!important;
-    h3{
+.header-overlay {
+  .rc-tooltip-inner {
+    padding: 20px !important;
+
+    h3 {
       margin-top: 0;
     }
   }
-  &-settings{
-    .rc-tooltip-arrow{
-      right: 15px!important;
+
+  &-settings {
+    .rc-tooltip-arrow {
+      right: 15px !important;
     }
   }
-  &-changelog{
-    .rc-tooltip-arrow{
-      right: 45px!important;
+
+  &-changelog {
+    .rc-tooltip-arrow {
+      right: 45px !important;
     }
-    h2{
+
+    h2 {
       margin-top: 0;
       margin-bottom: 12px;
     }
-    .changelog-content{
+
+    .changelog-content {
       max-height: 500px;
       overflow: auto;
-      h2{
+
+      h2 {
         margin-top: 12px;
         margin-bottom: 4px;
       }
-      ul{
+
+      ul {
         padding-left: 16px;
       }
-      li{
+
+      li {
         list-style-type: disc;
       }
     }

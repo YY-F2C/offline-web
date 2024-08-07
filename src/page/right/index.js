@@ -1,10 +1,10 @@
-import React from 'react'
 import cn from 'classnames'
-import { withGlobalContextConsumer } from 'contexts/GlobalContext'
-import { CollapseButton } from 'components/utilities'
+import {CollapseButton} from 'components/utilities'
+import {withGlobalContextConsumer} from 'contexts/GlobalContext'
+import React from 'react'
 import RightPanel from './Panel'
-import RightProps from './PanelProperties'
 import StyleDetail from './PanelDetail'
+import RightProps from './PanelProperties'
 import './index.scss'
 
 class Right extends React.Component {
@@ -12,32 +12,35 @@ class Right extends React.Component {
     detailVisible: false,
     styleDetail: {},
     // the state of properties panel: leaved, entering, entered, leaving
-    propsPanelState: 'leaved'
+    propsPanelState: 'leaved',
   }
   toggleDetail = () => {
-    const { detailVisible } = this.state
+    const {detailVisible} = this.state
     this.setState({
-      detailVisible: !detailVisible
+      detailVisible: !detailVisible,
     })
   }
   openStyleDetail = styleDetail => {
-    this.setState({ styleDetail })
+    this.setState({styleDetail})
     this.toggleDetail()
   }
   handlePropsPanelAnimationEnd = () => {
-    const { onPropsPanelLeave } = this.props
-    const { propsPanelState: currentState } = this.state
-    if (currentState==='entering' || currentState==='leaving') {
-      this.setState({
-        propsPanelState: currentState==='entering' ? 'entered' : 'leaved'
-      }, () => {
-        // tell canvas when props panel leaved
-        this.state.propsPanelState==='leaved' && onPropsPanelLeave()
-      })
+    const {onPropsPanelLeave} = this.props
+    const {propsPanelState: currentState} = this.state
+    if (currentState === 'entering' || currentState === 'leaving') {
+      this.setState(
+        {
+          propsPanelState: currentState === 'entering' ? 'entered' : 'leaved',
+        },
+        () => {
+          // tell canvas when props panel leaved
+          this.state.propsPanelState === 'leaved' && onPropsPanelLeave()
+        },
+      )
     }
   }
-  componentDidUpdate (prevProps) {
-    const { hasElementSelected } = this.props
+  componentDidUpdate(prevProps) {
+    const {hasElementSelected} = this.props
     // an element selected
     if (!prevProps.hasElementSelected && hasElementSelected) {
       this.setState({propsPanelState: 'starting'})
@@ -51,7 +54,7 @@ class Right extends React.Component {
       this.state.detailVisible && this.toggleDetail()
     }
   }
-  render () {
+  render() {
     const {
       mode,
       isMock,
@@ -64,18 +67,19 @@ class Right extends React.Component {
       currentIndex,
       onSiderTransitionEnd,
       versionData,
-      globalSettings
+      globalSettings,
     } = this.props
-    const { rightCollapse } = globalSettings
-    const { propsPanelState, detailVisible, styleDetail } = this.state
+    const {rightCollapse} = globalSettings
+    const {propsPanelState, detailVisible, styleDetail} = this.state
 
     return (
-      <div
-        className={cn('main-right', { collapsed: rightCollapse })}
-        onTransitionEnd={onSiderTransitionEnd}
-      >
-        <CollapseButton placement="right"/>
-        <div className={cn('right-pannels', {'right-pannels-out': detailVisible})}>
+      <div className={cn('main-right', {collapsed: rightCollapse})} onTransitionEnd={onSiderTransitionEnd}>
+        <CollapseButton placement="right" />
+        <div
+          className={cn('right-pannels', {
+            'right-pannels-out': detailVisible,
+          })}
+        >
           <RightPanel
             mode={mode}
             isMock={isMock}
@@ -86,8 +90,7 @@ class Right extends React.Component {
             onShowDetail={this.openStyleDetail}
             versionData={versionData}
           />
-          {
-            elementData &&
+          {elementData && (
             <RightProps
               mode={mode}
               isMock={isMock}
@@ -103,12 +106,8 @@ class Right extends React.Component {
               onCloseDetail={this.toggleDetail}
               onShowDetail={this.openStyleDetail}
             />
-          }
-          <StyleDetail
-            visible={detailVisible}
-            onBack={this.toggleDetail}
-            style={styleDetail}
-          />
+          )}
+          <StyleDetail visible={detailVisible} onBack={this.toggleDetail} style={styleDetail} />
         </div>
       </div>
     )
