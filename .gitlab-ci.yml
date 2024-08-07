@@ -15,7 +15,7 @@ stages:
 deploy_bos:
   stage: deploy
   script:
-    - pnpm i 
+    - pnpm i --no-frozen-lockfile
     - pnpm run build
 
   only:
