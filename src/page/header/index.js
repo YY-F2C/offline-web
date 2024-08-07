@@ -5,6 +5,7 @@ import Changelog from './Changelog'
 import Overlay from './Overlay'
 import SettingsPanel from './Settings'
 import './header.scss'
+import LangSetting from 'page/entry/LangSetting'
 
 class Header extends React.Component {
   hasNames = () => {
@@ -18,7 +19,7 @@ class Header extends React.Component {
     return (
       <header className="app-header">
         {logoVisible ? (
-          <a className="header-logo" href="https://heron.design" target="_blank" rel="noopener noreferrer">
+          <a className="header-logo" rel="noopener noreferrer">
             <img src={`/logo.png`} alt="logo" ref={this.logo} />
           </a>
         ) : (
@@ -49,7 +50,7 @@ class Header extends React.Component {
               </span>
             </Overlay>
           )}
-          <Overlay
+          {/* <Overlay
             trigger={['click']}
             overlay={<Changelog mode={mode} />}
             align={{
@@ -60,8 +61,8 @@ class Header extends React.Component {
             <span title={t('changelog')}>
               <FileText size={14} />
             </span>
-          </Overlay>
-          <a title={t('help')} href={docs || t('help link')} target="_blank" rel="noopener noreferrer">
+          </Overlay> */}
+          {/* <a title={t('help')} href={docs || t('help link')} target="_blank" rel="noopener noreferrer">
             <HelpCircle size={14} />
           </a>
           <a
@@ -71,7 +72,8 @@ class Header extends React.Component {
             rel="noopener noreferrer"
           >
             <MessageCircle size={14} />
-          </a>
+          </a> */}
+          <LangSetting />
         </div>
       </header>
     )

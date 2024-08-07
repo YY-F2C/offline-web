@@ -63,7 +63,8 @@ class Entry extends React.Component {
             <div className="main-buttons">
               <a
                 className="btn btn-lg btn-primary btn-round"
-                href="https://www.figma.com/community/plugin/830051293378016221/Heron-Handoff"
+                // href="https://www.figma.com/community/plugin/830051293378016221/Heron-Handoff"
+                href="https://www.figma.com/community/plugin/1248187540929489451/f2c-figma-to-code-react-rn-vue-html-yy-d2c"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -74,18 +75,18 @@ class Entry extends React.Component {
               </button>
             </div>
           </div>
-          <div className={cn('entry-coffee', {hide: !coffeeVisible})}>
+          {/* <div className={cn('entry-coffee', {hide: !coffeeVisible})}>
             <X size={36} className="coffee-close" onClick={this.toggleCoffee} />
             <img src={qrcode} alt="coffee qrcode" />
             <div className="coffee-or">Or</div>
             <a href="https://paypal.me/leadream" target="_blank" rel="noopener noreferrer">
               <DollarSign size={12} /> {t('paypal')}
             </a>
-          </div>
+          </div> */}
           <div className="entry-footer">
-            <LangSetting />
+            {/* <LangSetting /> */}
             <span className="footer-stretch" />
-            <Tooltip overlay={t('github')} placement="top" align={{offset: [0, 3]}}>
+            {/* <Tooltip overlay={t('github')} placement="top" align={{offset: [0, 3]}}>
               <a
                 className="footer-item"
                 href="https://github.com/leadream/heron-handoff"
@@ -99,7 +100,7 @@ class Entry extends React.Component {
               <a className="footer-item" onClick={this.toggleCoffee} href="/">
                 <Coffee size={14} />
               </a>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           {/* <div className="entry-social">
             <h5>{t('contact me')}</h5>

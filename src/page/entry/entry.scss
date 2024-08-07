@@ -1,63 +1,76 @@
 @import "assets/tokens.scss";
 
-.app-entry{
+.app-entry {
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   background: $black-0;
-  .entry-producthunt{
+
+  .entry-producthunt {
     position: fixed;
     bottom: 36px;
     right: 36px;
     width: 180px;
     height: 39px;
-    img{
+
+    img {
       width: 100%;
     }
   }
-  .entry-container{
+
+  .entry-container {
     padding: 60px 0;
-    .entry-logo{
+
+    .entry-logo {
       text-align: center;
-      img{
+
+      img {
         width: 120px;
       }
     }
-    .entry-main{
+
+    .entry-main {
       padding: 30px 0;
       text-align: center;
-      p{
+
+      p {
         width: 360px;
         text-align: left;
-        a{
+
+        a {
           color: $primary-color;
         }
       }
-      .main-buttons{
+
+      .main-buttons {
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 6px;
-        .btn{
+
+        .btn {
           display: flex;
           align-items: center;
           justify-content: center;
           margin: 6px;
           padding: 5px 16px;
-          svg{
+
+          svg {
             margin-right: 4px;
           }
         }
       }
     }
-    .entry-coffee{
+
+    .entry-coffee {
       position: relative;
       width: 360px;
       padding: 0 15px;
       padding-top: 60px;
       text-align: center;
-      .coffee-close{
+
+      .coffee-close {
         position: absolute;
         top: 12px;
         right: 12px;
@@ -66,39 +79,47 @@
         color: $white-65;
         transition: color 0.2s;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
           color: $white-85;
         }
       }
-      img{
+
+      img {
         width: 240px;
         border-radius: 12px;
       }
-      .coffee-or{
+
+      .coffee-or {
         margin: 10px 0;
         color: $white-36;
       }
-      a{
+
+      a {
         display: flex;
         align-items: center;
         justify-content: center;
       }
     }
-    .entry-footer{
+
+    .entry-footer {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       text-align: right;
       padding: 10px 0;
-      .footer-stretch{
+
+      .footer-stretch {
         flex: 1;
       }
-      .footer-language{
+
+      .footer-language {
         position: relative;
         display: flex;
         align-items: center;
         padding: 3px 5px;
-        >select{
+
+        >select {
           position: absolute;
           top: 0;
           left: 0;
@@ -106,38 +127,79 @@
           height: 20px;
           cursor: pointer;
         }
-        >svg{
+
+        >svg {
           display: block;
           margin-right: 6px;
         }
       }
-      .footer-item{
+
+      .footer-item {
         padding: 5px;
-        >svg{
+
+        >svg {
           display: block;
         }
       }
     }
-    .entry-social{
+
+    .entry-social {
       padding-top: 100px;
-      h5{
+
+      h5 {
         margin: 0;
         margin-bottom: 6px;
         color: $white-16;
       }
-      .social-item{
+
+      .social-item {
         margin-bottom: 6px;
         cursor: pointer;
-        >span,>a{
+
+        >span,
+        >a {
           color: $white-36;
-          &:hover{
+
+          &:hover {
             opacity: 0.85;
           }
         }
-        svg{
+
+        svg {
           vertical-align: middle;
         }
       }
+    }
+  }
+}
+
+.header-operates {
+  .footer-language {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    // padding: 3px 5px !important;
+    // height: auto !important;
+
+    >span {
+      // height: auto !important;
+      padding: 10px 0 !important;
+    }
+
+    >select {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      right: 0;
+      // height: 40px;
+      bottom: 0;
+      cursor: pointer;
+    }
+
+    >svg {
+      display: block;
+      margin-right: 6px;
     }
   }
 }
