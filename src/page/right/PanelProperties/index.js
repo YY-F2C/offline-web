@@ -307,7 +307,7 @@ class RightProps extends React.Component {
                 <Copy size={14} />
               </WithCopy>
               <pre className="code-box">
-                <code dangerouslySetInnerHTML={{__html: styledCode}}></code>
+                <code dangerouslySetInnerHTML={{__html: styledCode}} />
               </pre>
             </div>
           </div>

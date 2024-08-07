@@ -13,7 +13,7 @@ const StyleItem = ({styles, styleName, styleType, isHoverable, isSelectable, ...
     })
   }
   switch (styleType) {
-    case 'FILL':
+    case 'FILL': {
       const {styles: fillItems} = getFillsStyle(styles)
       const isSingleFill = fillItems.length === 1
       const isMixFill = fillItems.length > 1
@@ -25,7 +25,8 @@ const StyleItem = ({styles, styleName, styleType, isHoverable, isSelectable, ...
           {styleName}
         </a>
       )
-    case 'EFFECT':
+    }
+    case 'EFFECT': {
       const {type} = getEffectsStyle(styles)
       return (
         <a className={className('effect')} {...props}>
@@ -33,6 +34,7 @@ const StyleItem = ({styles, styleName, styleType, isHoverable, isSelectable, ...
           {styleName}
         </a>
       )
+    }
     case 'TEXT':
       return (
         <a className={className('text')} {...props}>

@@ -19,9 +19,9 @@ function Canvas({
   onVersionChange,
 }) {
   useEffect(() => {
-    document.body.classList.add('f2c-handoff')
+    document.body.classList.add('f2c-offline')
     return () => {
-      document.body.classList.remove('f2c-handoff')
+      document.body.classList.remove('f2c-offline')
     }
   }, [])
 

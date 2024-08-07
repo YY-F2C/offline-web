@@ -1,1 +1,1 @@
-declare module 'f2c-handoff'
+declare module 'f2c-offline'

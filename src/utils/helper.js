@@ -1,9 +1,9 @@
 import {LOCALIZED_SETTING_KEYS} from './const'
 
 export const throttle = (fn, delay) => {
-  var timer = null
-  return function () {
-    var args = arguments
+  let timer = null
+  return function (...args) {
+    // const args = arguments
     clearTimeout(timer)
     timer = setTimeout(() => {
       fn.apply(this, args)
@@ -87,9 +87,9 @@ export const filterLocalizedSettings = settings => {
 }
 
 export const getLocalGlobalSettings = () => {
-  return JSON.parse(window.localStorage.getItem('f2cHandoff.settings'))
+  return JSON.parse(window.localStorage.getItem('f2cOffline.settings'))
 }
 
 export const setLocalGlobalSettings = settings => {
-  window.localStorage.setItem('f2cHandoff.settings', JSON.stringify(filterLocalizedSettings(settings)))
+  window.localStorage.setItem('f2cOffline.settings', JSON.stringify(filterLocalizedSettings(settings)))
 }

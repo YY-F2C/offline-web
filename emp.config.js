@@ -12,7 +12,7 @@ export default defineConfig(store => {
     },
     html: {
       template: store.resolve('template/index.html'),
-      favicon: store.resolve('template/favicon.ico'),
+      favicon: store.resolve('template/favicon.png'),
     },
     resolve: {
       alias: {

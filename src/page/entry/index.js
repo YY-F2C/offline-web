@@ -8,7 +8,7 @@ import {withTranslation} from 'react-i18next'
 import {getPagedFrames, getSelectedPagedFrames} from 'utils/frame'
 // import {reportEvent} from 'utils/gtag'
 import LangSetting from './LangSetting'
-import ProductHunt from './ProductHunt'
+// import ProductHunt from './ProductHunt'
 import './entry.scss'
 
 import qrcode from './qrcode.jpg'
@@ -20,7 +20,6 @@ class Entry extends React.Component {
   }
   gotoDemo = async e => {
     e && e.preventDefault()
-    // reportEvent('view_demo', 'handoff_entry')
     this.setState({isLoadingDemo: true})
     const fileData = await getMockFile()
     // get components and styles
@@ -54,7 +53,7 @@ class Entry extends React.Component {
     return (
       <div className="app-entry">
         <div className="entry-container">
-          <ProductHunt />
+          {/* <ProductHunt /> */}
           <div className="entry-logo">
             {/* <img className="hide" src={`/figmacn-logo.svg`} alt="figmacn logo" ref={this.figmacnLogo} /> */}
             <img src={`/logo.png`} alt="logo" ref={this.logo} />
@@ -67,7 +66,6 @@ class Entry extends React.Component {
                 href="https://www.figma.com/community/plugin/830051293378016221/Heron-Handoff"
                 target="_blank"
                 rel="noopener noreferrer"
-                // onClick={() => reportEvent('view_plugin', 'handoff_entry')}
               >
                 <Package size={16} /> {t('start now')}
               </a>

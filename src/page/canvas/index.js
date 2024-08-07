@@ -267,7 +267,7 @@ class Canvas extends React.Component {
           {rects.map((rect, index) => {
             const {clazz, isComponent} = rect
             const activeAndMaskedType = this.getActiveAndMaskedType(index)
-            const style = !!activeAndMaskedType
+            const style = activeAndMaskedType
               ? this.getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
               : this.getLayerBoundStyle(rect)
             return (

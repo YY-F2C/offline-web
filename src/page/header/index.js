@@ -39,7 +39,7 @@ class Header extends React.Component {
             {frameName}
           </span>
         ) : (
-          <span className="header-pagename">F2C Handoff</span>
+          <span className="header-pagename">F2C Offline</span>
         )}
         <div className="header-operates">
           {this.hasNames() && (
