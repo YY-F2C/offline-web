@@ -1,0 +1,29 @@
+image: harbor.yy.com/front_end/emp:node20.11pnpm8.15
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - node_modules/
+    - pnpmcache/
+before_script:
+  - mkdir -p ./pnpmcache
+  - pnpm config set store-dir ./pnpmcache
+  - npm config set ignore-scripts true
+
+stages:
+  - deploy
+
+deploy_bos:
+  stage: deploy
+  script:
+    - pnpm i 
+    - pnpm run build
+
+  only:
+    - /^(test|main|master)$/
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+      - output
+
+
