@@ -1,9 +1,9 @@
 {
-  "short_name": "Heron handoff",
-  "name": "Figma handoff tool",
+  "short_name": "F2C Offline",
+  "name": "Figma F2C Offline tool",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

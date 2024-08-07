@@ -73,7 +73,7 @@ class Header extends React.Component {
           >
             <MessageCircle size={14} />
           </a> */}
-          <LangSetting />
+          <LangSetting placement={'left'} />
         </div>
       </header>
     )

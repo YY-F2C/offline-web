@@ -9,7 +9,7 @@ const languages = {
   zh: '中文',
 }
 
-const LangSetting = ({i18n, globalSettings, changeGlobalSetting}) => {
+const LangSetting = ({i18n, globalSettings, changeGlobalSetting, placement = 'top'}) => {
   const {language} = globalSettings
 
   const changeLanguage = e => {
@@ -19,7 +19,7 @@ const LangSetting = ({i18n, globalSettings, changeGlobalSetting}) => {
   }
 
   return (
-    <Tooltip overlay="Change Language" placement="top" align={{offset: [0, 3]}}>
+    <Tooltip overlay="Change Language" placement={placement} align={{offset: [0, 3]}}>
       <a className="footer-language" onClick={e => e.preventDefault()} href="/">
         <select value={language} onChange={changeLanguage}>
           <option value="en">English</option>
