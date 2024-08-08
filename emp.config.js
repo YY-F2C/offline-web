@@ -8,11 +8,14 @@ export default defineConfig(store => {
   return {
     plugins: [pluginReact()],
     define: {
-      PUBLIC_URL: '',
+      PUBLIC_URL: '.',
     },
     html: {
       template: store.resolve('template/index.html'),
       favicon: store.resolve('template/favicon.png'),
+    },
+    build: {
+      staticDir: 'static',
     },
     resolve: {
       alias: {
