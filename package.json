@@ -5,19 +5,19 @@
   "types": "dist/index.d.ts",
   "files": ["dist"],
   "dependencies": {
-    "classnames": "^2.2.6",
+    "classnames": "^2.5.1",
     "color": "^3.1.2",
     "file-saver": "^2.0.2",
     "i18next": "^19.1.0",
     "jszip": "^3.2.2",
     "marked": "^0.8.0",
     "prismjs": "^1.23.0",
-    "rc-input-number": "^4.5.3",
-    "rc-tooltip": "^4.0.0-alpha.3",
+    "rc-input-number": "^9.2.0",
+    "rc-tooltip": "^6.2.0",
     "react": "18",
     "react-dom": "18",
     "react-feather": "^2.0.3",
-    "react-i18next": "^11.3.1"
+    "react-i18next": "^15.0.1"
   },
   "scripts": {
     "dev": "emp dev",

@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
 import {ChevronLeft, FileText, HelpCircle, MessageCircle, Settings} from 'react-feather'
 import {withTranslation} from 'react-i18next'
-import Changelog from './Changelog'
+// import Changelog from './Changelog'
 import Overlay from './Overlay'
 import SettingsPanel from './Settings'
 import './header.scss'
