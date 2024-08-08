@@ -20,7 +20,7 @@ class Header extends React.Component {
       <header className="app-header">
         {logoVisible ? (
           <a className="header-logo" rel="noopener noreferrer">
-            <img src={`/logo.png`} alt="logo" ref={this.logo} />
+            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" ref={this.logo} />
           </a>
         ) : (
           <span className="header-back" onClick={onBack}>

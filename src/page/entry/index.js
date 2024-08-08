@@ -56,7 +56,7 @@ class Entry extends React.Component {
           {/* <ProductHunt /> */}
           <div className="entry-logo">
             {/* <img className="hide" src={`/figmacn-logo.svg`} alt="figmacn logo" ref={this.figmacnLogo} /> */}
-            <img src={`/logo.png`} alt="logo" ref={this.logo} />
+            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" ref={this.logo} />
           </div>
           <div className={cn('entry-main', {hide: coffeeVisible})}>
             <p>{t('use plugin description')}</p>
