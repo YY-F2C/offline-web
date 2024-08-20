@@ -6,6 +6,7 @@ import Overlay from './Overlay'
 import SettingsPanel from './Settings'
 import './header.scss'
 import LangSetting from 'page/entry/LangSetting'
+import { F2cLog } from '../../components/icons/text'
 
 class Header extends React.Component {
   hasNames = () => {
@@ -20,7 +21,7 @@ class Header extends React.Component {
       <header className="app-header">
         {logoVisible ? (
           <a className="header-logo" rel="noopener noreferrer">
-            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" ref={this.logo} />
+             <F2cLog />
           </a>
         ) : (
           <span className="header-back" onClick={onBack}>

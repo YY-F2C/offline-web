@@ -12,6 +12,7 @@ import LangSetting from './LangSetting'
 import './entry.scss'
 
 import qrcode from './qrcode.jpg'
+import { F2cLog } from '../../components/icons/text'
 
 class Entry extends React.Component {
   state = {
@@ -56,7 +57,7 @@ class Entry extends React.Component {
           {/* <ProductHunt /> */}
           <div className="entry-logo">
             {/* <img className="hide" src={`/figmacn-logo.svg`} alt="figmacn logo" ref={this.figmacnLogo} /> */}
-            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" ref={this.logo} />
+            <F2cLog size={120}/>
           </div>
           <div className={cn('entry-main', {hide: coffeeVisible})}>
             <p>{t('use plugin description')}</p>
@@ -86,17 +87,17 @@ class Entry extends React.Component {
           <div className="entry-footer">
             {/* <LangSetting /> */}
             <span className="footer-stretch" />
-            {/* <Tooltip overlay={t('github')} placement="top" align={{offset: [0, 3]}}>
+            <Tooltip overlay={t('github')} placement="top" align={{offset: [0, 3]}}>
               <a
                 className="footer-item"
-                href="https://github.com/leadream/heron-handoff"
+                href="https://github.com/YyFigmaToCode/f2c-offline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <GitHub size={14} />
               </a>
             </Tooltip>
-            <Tooltip overlay={t('buy me a coffee')} placement="top" align={{offset: [0, 3]}}>
+             {/*<Tooltip overlay={t('buy me a coffee')} placement="top" align={{offset: [0, 3]}}>
               <a className="footer-item" onClick={this.toggleCoffee} href="/">
                 <Coffee size={14} />
               </a>
