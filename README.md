@@ -1,4 +1,4 @@
-## f2c-offline
+## YY F2C Offline Web
 
 ## 发布地址
 @f2c-offline
