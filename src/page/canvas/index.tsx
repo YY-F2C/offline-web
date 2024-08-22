@@ -1,52 +1,69 @@
 import cn from 'classnames'
-import {WithCopy} from 'components/utilities'
-import {withGlobalContextConsumer} from 'contexts/GlobalContext'
-import React from 'react'
-import {Copy} from 'react-feather'
-import {calculateMarkData, generateRects, toPercentage} from 'utils/mark'
+import { WithCopy } from 'components/utilities'
+import { withGlobalContextConsumer } from 'contexts/GlobalContext'
+import React, { useEffect, useState } from 'react'
+import { Copy } from 'react-feather'
+import { calculateMarkData, generateRects, toPercentage } from 'utils/mark'
 import Dimension from './Dimension'
 import Distance from './Distance'
 import Ruler from './Ruler'
-import canvasWrapper from './canvasWrapper'
 import './canvas.scss'
+import canvasWrapper from './canvasWrapper'
+import useBearStore from '../../store'
+import { IPageRect, IRectNode } from '../../types'
 
-class Canvas extends React.Component {
-  state = {
-    isLoading: false,
-    rects: [],
-    pageRect: {},
-    selectedRect: null,
-    selectedIndex: null,
-    hoveredRect: null,
-    hoveredIndex: null,
-    markData: {},
-    isChanging: false,
-    closedCommonParent: null,
-    closedCommonParentPath: '',
+export interface CanverProps{
+  currentImageUrl:string
+  canvasData: any
+  id: string
+  elementData: any
+  onSelect: any
+  onDeselect: any
+  onGetExports: any
+  siderCollapseFlag: any,
+  globalSettings: any,
+  size: any,
+  percentageMode: any
+  frameBound: any
+  spacePressed: any
+} 
+
+function Canvas(props: CanverProps){
+    
+    // const [isLoading, setIsLoading] = useState( false)
+    const [rects, setRects] = useState<IRectNode[]>([])
+    const [pageRect, setPageRect] = useState<IPageRect>( {height: '', width: ''})
+    const [selectedRect, setSelectedRect] = useState( null)
+    const [selectedIndex, setSelectedIndex] = useState( 0)
+    const [hoveredRect, setHoveredRect] = useState( null)
+    const [hoveredIndex, setHoveredIndex] = useState( null)
+    const [markData, setMarkData] = useState( {})
+    const [isChanging, setIsChanging] = useState( false)
+    const [closedCommonParent, setClosedCommonParent] = useState( null)
+    const [closedCommonParentPath, setClosedCommonParentPath] = useState( '')
+    const [closestComponentIndex, setClosestComponentIndex] = useState( undefined)
+    const [closestComponent, setClosestComponent] = useState( null)
+   const resetMark = () => {
+      setClosestComponentIndex( undefined)
+      setClosestComponent( null)
+      setSelectedRect( null)
+      setSelectedIndex( 0)
+      setHoveredRect( null)
+      setHoveredIndex( null)
+      setMarkData( {})
+      setClosedCommonParent( null)
+      setClosedCommonParentPath( '')
   }
-  resetMark = () => {
-    this.setState({
-      closestComponentIndex: undefined,
-      closestComponent: null,
-      selectedRect: null,
-      selectedIndex: null,
-      hoveredRect: null,
-      hoveredIndex: null,
-      markData: {},
-      closedCommonParent: null,
-      closedCommonParentPath: '',
-    })
-  }
-  generateMark = () => {
-    const {canvasData, onGetExports, globalSettings} = this.props
+  const generateMark = () => {
+    const {canvasData, onGetExports, globalSettings} = props
     const {absoluteBoundingBox: pageRect} = canvasData
     const {rects, exportIds} = generateRects([canvasData], pageRect, globalSettings)
     onGetExports && onGetExports(exportIds)
-    this.setState({rects, pageRect})
+    setRects(rects);
+    setPageRect(pageRect)
   }
-  getBound = () => {
-    const {frameBound} = this.props
-    const {pageRect} = this.state
+  const getBound = () => {
+    const {frameBound} = props
     const {top, bottom, left, right} = frameBound
     const frameStyle = {
       top: toPercentage(top / (pageRect.height + top + bottom)),
@@ -56,8 +73,7 @@ class Canvas extends React.Component {
     }
     return frameStyle
   }
-  getLayerBoundStyle = rect => {
-    const {pageRect} = this.state
+  const getLayerBoundStyle = rect => {
     const {top, left, width, height} = rect.maskedBound || rect
     return {
       top: toPercentage(top / pageRect.height),
@@ -66,8 +82,7 @@ class Canvas extends React.Component {
       height: toPercentage(height / pageRect.height),
     }
   }
-  getMaskedLayerHoveredBoundStyle = type => {
-    const {pageRect, hoveredRect, selectedRect} = this.state
+  const getMaskedLayerHoveredBoundStyle = type => {
     const {top, left, width, height} = type === 'selected' ? selectedRect : hoveredRect
     return {
       top: toPercentage(top / pageRect.height),
@@ -76,17 +91,15 @@ class Canvas extends React.Component {
       height: toPercentage(height / pageRect.height),
     }
   }
-  getActiveAndMaskedType = index => {
-    const {selectedIndex, selectedRect, hoveredIndex, hoveredRect} = this.state
-    if (index === selectedIndex && selectedRect.maskedBound) {
+  const getActiveAndMaskedType = index => {
+    if (index === selectedIndex && selectedRect && selectedRect.maskedBound) {
       return 'selected'
-    } else if (index === hoveredIndex && hoveredRect.maskedBound) {
+    } else if (index === hoveredIndex && hoveredRect && hoveredRect.maskedBound) {
       return 'hovered'
     }
     return false
   }
-  getClosedCommonParent = (hoveredRect, selectedRect) => {
-    const {rects} = this.state
+  const getClosedCommonParent = (hoveredRect, selectedRect) => {
     if (!hoveredRect || !selectedRect) {
       return {closedCommonParentPath: [], closedCommonParent: null}
     }
@@ -104,7 +117,7 @@ class Canvas extends React.Component {
         closedCommonParent,
       }
     }
-    const closedCommonParentPath = []
+    const closedCommonParentPath: any[] = []
     const hoveredPaths = hoveredRect.paths
     const selectedPaths = selectedRect.paths
     const sortedPaths = [hoveredPaths, selectedPaths].sort((a, b) => a.length - b.length)
@@ -121,9 +134,7 @@ class Canvas extends React.Component {
     const closedCommonParent = rects.filter(({paths}) => paths.join('-') === closedCommonParentPath.join('-'))[0]
     return {closedCommonParentPath, closedCommonParent}
   }
-  isPercentageHighlight = (rect, index) => {
-    const {percentageMode} = this.props
-    const {closedCommonParentPath, selectedRect, hoveredRect} = this.state
+  const isPercentageHighlight = (rect, index) => {
     if (percentageMode === 'auto') {
       return closedCommonParentPath === rect.paths.join('-')
     }
@@ -132,17 +143,15 @@ class Canvas extends React.Component {
     }
     return false
   }
-  selectMask = rect => {
+  const selectMask = rect => {
     if (!rect.maskedBound) {
       return
     }
-    const {rects} = this.state
     const {maskIndex} = rect.maskedBound
-    this.onSelect(rects[maskIndex], maskIndex)
+    onSelect(rects[maskIndex], maskIndex)
   }
   // get closest parent component to highlight
-  getClosestComponent = closestComponentIndex => {
-    const {rects} = this.state
+  const getClosestComponent = closestComponentIndex => {
     const hasIndex = closestComponentIndex !== undefined
     let closestComponent
     if (hasIndex) {
@@ -160,98 +169,90 @@ class Canvas extends React.Component {
     }
     return closestComponent
   }
-  onSelect = (rect, index) => {
-    const {spacePressed, onSelect} = this.props
-    if (spacePressed) return
+  const onSelect = (rect, index: number) => {
+    if (props.spacePressed) return
     const {closestComponentIndex} = rect
-    const closestComponent = this.getClosestComponent(closestComponentIndex)
-    onSelect && onSelect(rect, index, closestComponent)
+    const closestComponent = getClosestComponent(closestComponentIndex)
+    props.onSelect && props.onSelect(rect, index, closestComponent)
 
-    const {hoveredIndex, hoveredRect} = this.state
     if (hoveredIndex === index) {
-      const {closedCommonParentPath, closedCommonParent} = this.getClosedCommonParent(hoveredRect, rect)
-      this.setState({
-        closedCommonParentPath: closedCommonParentPath.join('-'),
-        closedCommonParent,
-      })
+      const {closedCommonParentPath, closedCommonParent} = getClosedCommonParent(hoveredRect, rect)
+     
+        setClosedCommonParentPath(closedCommonParentPath.join('-'))
+        setClosedCommonParent(closedCommonParent)
     }
 
-    this.setState({
-      selectedRect: rect,
-      selectedIndex: index,
-      closestComponentIndex,
-      closestComponent,
-    })
+      setSelectedRect( rect)
+      setSelectedIndex( index)
+      setClosestComponentIndex(closestComponentIndex)
+      setClosestComponent(closestComponent)
   }
-  onHover = (rect, index) => {
-    const {pageRect, selectedRect} = this.state
+  const onHover = (rect, index) => {
     const markData = calculateMarkData(selectedRect, rect, pageRect)
-    const {closedCommonParentPath, closedCommonParent} = this.getClosedCommonParent(rect, selectedRect)
-    this.setState({
-      hoveredRect: rect,
-      hoveredIndex: index,
-      markData,
-      closedCommonParentPath: closedCommonParentPath.join('-'),
-      closedCommonParent,
-    })
+    const {closedCommonParentPath, closedCommonParent} = getClosedCommonParent(rect, selectedRect)
+      setHoveredRect(rect)
+      setHoveredIndex(index)
+      setMarkData(markData)
+      setClosedCommonParentPath(closedCommonParentPath.join('-'))
+      setClosedCommonParent(closedCommonParent)
   }
-  onLeave = () => {
-    this.setState({
-      hoveredRect: null,
-      hoveredIndex: null,
-      markData: {},
-      closedCommonParentPath: '',
-      closedCommonParent: null,
-    })
+  const onLeave = () => {
+      setHoveredRect(null)
+      setHoveredIndex(null)
+      setMarkData({})
+      setClosedCommonParentPath('')
+      setClosedCommonParent(null)
   }
-  handleImgLoaded = () => {
-    this.setState({isChanging: false})
+  const handleImgLoaded = () => {
+    setIsChanging(false)
   }
-  customInspectDisabledClass = node => {
-    const {globalSettings} = this.props
+  const customInspectDisabledClass = node => {
     const {disableInspectFunction} = globalSettings
     return disableInspectFunction && disableInspectFunction(node)
   }
-  componentDidMount() {
-    this.generateMark()
-  }
-  componentDidUpdate(prevProps) {
-    const {elementData} = this.props
-    // reset mark when no element selected
-    if (!elementData && elementData !== prevProps.elementData) {
-      this.resetMark()
+
+  useEffect(() =>{
+    generateMark()
+
+  }, [])
+
+  useEffect(() =>{
+    const sub = useBearStore.subscribe((state, prevState) => {
+      const index = rects.findIndex(rect => rect.id == state.selectedNodeId)
+      if(index > -1) {
+        console.log('change selectedIndex from slick', state.selectedNodeId)
+        onSelect(rects[index], index)
+      }
+    })
+    return () => sub()
+  }, [rects, onSelect])
+  
+
+  const { elementData, id, currentImageUrl, globalSettings, size, percentageMode } = props;
+  // 处理 elementData 变化
+  useEffect(() => {
+    if (!elementData) {
+      resetMark();
     }
-    const {id, currentImageUrl, globalSettings} = this.props
-    if (id !== prevProps.id && currentImageUrl !== prevProps.currentImageUrl) {
-      this.setState({isChanging: true})
-      this.resetMark()
-      this.generateMark()
-    }
-    if (
-      prevProps.globalSettings.disableInspectInComponent !== globalSettings.disableInspectInComponent ||
-      prevProps.globalSettings.disableInspectExportInner !== globalSettings.disableInspectExportInner
-    ) {
-      this.resetMark()
-      this.generateMark()
-    }
-  }
-  render() {
-    const {currentImageUrl, size, percentageMode, globalSettings} = this.props
-    const {
-      rects,
-      closestComponentIndex,
-      closestComponent,
-      selectedIndex,
-      hoveredIndex,
-      markData,
-      isChanging,
-      pageRect,
-      closedCommonParent,
-    } = this.state
+  }, [elementData]);
+
+  // 处理 id 或 currentImageUrl 变化
+  useEffect(() => {
+    setIsChanging(true);
+    resetMark();
+    generateMark();
+  }, [id, currentImageUrl]);
+
+  // 处理 globalSettings 变化
+  useEffect(() => {
+    resetMark();
+    generateMark();
+  }, [globalSettings.disableInspectInComponent, globalSettings.disableInspectExportInner]);
+  
     const {disableInspectInComponent} = globalSettings
-    const frameStyle = this.getBound()
+    const frameStyle = getBound()
     return (
-      <div className="container-mark" onMouseLeave={this.onLeave}>
+      <div className="container-mark" onMouseLeave={onLeave}>
         <div
           className={cn('mark-layers', {
             'mark-layers-exports-visible': selectedIndex === 0,
@@ -259,17 +260,17 @@ class Canvas extends React.Component {
           style={frameStyle}
         >
           {rects[0] && !rects[0].isComponent && (
-            <div className="mark-artboard-name" onClick={() => this.onSelect(rects[0], 0)}>
+            <div className="mark-artboard-name" onClick={() => onSelect(rects[0], 0)}>
               {rects[0].title}
             </div>
           )}
           {selectedIndex !== null && selectedIndex !== hoveredIndex && <Ruler rulerData={markData.rulerData} />}
           {rects.map((rect, index) => {
             const {clazz, isComponent} = rect
-            const activeAndMaskedType = this.getActiveAndMaskedType(index)
+            const activeAndMaskedType = getActiveAndMaskedType(index)
             const style = activeAndMaskedType
-              ? this.getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
-              : this.getLayerBoundStyle(rect)
+              ? getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
+              : getLayerBoundStyle(rect)
             return (
               <div
                 key={index}
@@ -278,13 +279,13 @@ class Canvas extends React.Component {
                   hovered: hoveredIndex === index,
                   'closest-component': closestComponentIndex === index,
                   'component-inspect-disabled': disableInspectInComponent && isComponent,
-                  'custom-inspect-disabled': this.customInspectDisabledClass(rect.node),
-                  'percentage-highlight': this.isPercentageHighlight(rect, index),
+                  'custom-inspect-disabled': customInspectDisabledClass(rect.node),
+                  'percentage-highlight': isPercentageHighlight(rect, index),
                 })}
                 style={style}
-                onClick={() => this.onSelect(rect, index)}
-                onDoubleClick={() => this.selectMask(rect)}
-                onMouseOver={() => this.onHover(rect, index)}
+                onClick={() => onSelect(rect, index)}
+                onDoubleClick={() => selectMask(rect)}
+                onMouseOver={() => onHover(rect, index)}
               >
                 {isComponent && closestComponentIndex === index && (
                   <div className="layer-component">
@@ -325,11 +326,10 @@ class Canvas extends React.Component {
             height: size.height,
             opacity: isChanging ? 0 : 1,
           }}
-          onLoad={this.handleImgLoaded}
+          onLoad={handleImgLoaded}
         />
       </div>
     )
-  }
 }
 
 export default canvasWrapper(withGlobalContextConsumer(Canvas))

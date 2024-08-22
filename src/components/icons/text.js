@@ -131,11 +131,11 @@ export const F2cLog =({size = 20, className}) => (
   <svg className={className} width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="20" height="20" rx="4" fill="#246DFF"/>
   <path d="M15 4L14.6668 5.84356C14.5808 6.31954 14.1665 6.66573 13.6828 6.66573H9.65116L9.18605 9.20365H13.3389L13.0057 11.0472C12.9197 11.5232 12.5053 11.8694 12.0217 11.8694H8.68771L8.0554 15.3568C7.8829 16.3082 7.05443 17 6.08749 17H5L7.07566 5.6405C7.24928 4.69032 8.07717 4 9.04308 4H15Z" fill="white"/>
-  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M9.70361 6.66573C10.3124 5.05039 12.0146 4.04107 12.6208 4.0122C12.6739 4.00967 12.7412 4.00551 12.8202 4H15L14.5182 6.66573H9.70361Z" fill="url(#paint0_linear_1140_87999)"/>
+  <path opacity="0.4" fillRule="evenodd" clipRule="evenodd" d="M9.70361 6.66573C10.3124 5.05039 12.0146 4.04107 12.6208 4.0122C12.6739 4.00967 12.7412 4.00551 12.8202 4H15L14.5182 6.66573H9.70361Z" fill="url(#paint0_linear_1140_87999)"/>
   <defs>
   <linearGradient id="paint0_linear_1140_87999" x1="10.55" y1="4.39533" x2="13.0711" y2="7.07566" gradientUnits="userSpaceOnUse">
-  <stop stop-color="#246DFF"/>
-  <stop offset="1" stop-color="#246DFF" stop-opacity="0"/>
+  <stop stopColor="#246DFF"/>
+  <stop offset="1" stopColor="#246DFF" stopOpacity="0"/>
   </linearGradient>
   </defs>
   </svg>
