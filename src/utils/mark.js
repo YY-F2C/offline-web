@@ -117,6 +117,7 @@ export const generateRects = (nodes, docRect, globalSettings) => {
         actualWidth: toFixed(nbb.width),
         actualHeight: toFixed(nbb.height),
         title: node.name,
+        id: node.id,
         isComponent,
         closestComponentIndex,
         clazz,

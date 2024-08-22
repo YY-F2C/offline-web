@@ -31,4 +31,12 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
+  
+  .operation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+  }
+
 }

@@ -102,7 +102,7 @@ class RightProps extends React.Component {
       >
         <div className="props-section">
           <h5 className="section-title section-name" title={node.name}>
-            <span>{node.name}</span>
+            <span title= {node.id}>{node.name}</span>
             <ColorFormatSelect />
           </h5>
         </div>

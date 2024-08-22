@@ -5,6 +5,7 @@ import React, {useState} from 'react'
 import {Download, ExternalLink, Loader} from 'react-feather'
 import {getImageUrl} from 'utils/helper'
 import './export-item.scss'
+import useBearStore from '../../../store'
 
 const ExportItem = ({exportSetting, mode, isMock}) => {
   const [isDownloading, setDownloading] = useState(false)
@@ -25,25 +26,27 @@ const ExportItem = ({exportSetting, mode, isMock}) => {
   }
 
   return (
-    <a
-      href={imageUrl}
-      target="_blank"
+    <div
+      // href={imageUrl}
+      // target="_blank"
       rel="noopener noreferrer"
       className={cn('export-item', {
         'export-item-downloading': isDownloading,
       })}
-      onClick={e => handleSave(e, name)}
+      onClick={e => useBearStore.getState().setSelectedNodeId(exportSetting.id)}
     >
       <div style={{backgroundImage: `url(${imageUrl})`}} />
       <span>{name}</span>
-      {isDownloading ? (
+      <div className="operation" onClick={e => handleSave(e, name)}>
+        {isDownloading ? (
         <Loader size={14} className="motion-loading" />
       ) : isHttpServer ? (
         <Download size={14} />
       ) : (
         <ExternalLink size={14} />
-      )}
-    </a>
+      )}</div>
+ 
+    </div>
   )
 }
 
