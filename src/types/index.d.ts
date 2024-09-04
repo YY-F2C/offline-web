@@ -25,3 +25,9 @@ export type IPageRect ={
     height: any
     width: any
 }
+
+declare global {
+    interface Window {
+        [key: string]: any;
+    }
+}

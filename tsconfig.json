@@ -1,0 +1,21 @@
+{
+  "extends": "@empjs/cli/emp-tsconfig.json",
+  "compilerOptions": {
+    "types": ["node_modules/@empjs/cli/client"],
+    "baseUrl": ".",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "experimentalDecorators": true
+  },
+  "paths": {
+    "page/*": ["src/page/*"],
+    "assets/*": ["src/assets/*"],
+    "components/*": ["src/components/*"],
+    "utils/*": ["src/utils/*"],
+    "contexts/*": ["src/contexts/*"],
+    "api/*": ["src/api/*"],
+  },
+  "include": [
+    "src",
+  ]
+}
