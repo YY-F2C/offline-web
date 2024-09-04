@@ -1,5 +1,6 @@
 <picture>
-  <img alt="Rspack Banner" src="https://med-fe.cdn.bcebos.com/f2c_offline/logoBg.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://med-fe.cdn.bcebos.com/f2c_offline/logoBg.png">
+  <img alt="f2c offline" src="https://med-fe.cdn.bcebos.com/f2c_offline/logoBg.png">
 </picture>
 
 # YY F2C Offline Web
