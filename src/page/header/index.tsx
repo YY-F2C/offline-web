@@ -29,7 +29,10 @@ const Header = (props) => {
 
     return (
         <header className="app-header">
-            {logoVisible 
+            <a className="header-logo" rel="noopener noreferrer" onClick={onBack}>
+                <img src="https://med-fe.cdn.bcebos.com/f2c_offline/Frame%20298.png" alt="" />
+            </a>
+            {/* {logoVisible 
                 ? (
                     <a className="header-logo" rel="noopener noreferrer">
                         <img src="https://med-fe.cdn.bcebos.com/f2c_offline/Frame%20298.png" alt="" />
@@ -40,8 +43,8 @@ const Header = (props) => {
                         <ChevronLeft size={24} />
                     </span>
                 )
-            }
-            <span className="header-filename">{documentName}</span>
+            } */}
+            {/* <span className="header-filename">{documentName}</span> */}
             <span className="header-space" />
             {hasNames 
                 ? (
@@ -63,11 +66,10 @@ const Header = (props) => {
                 {hasNames && (
                     <Overlay overlay={<SettingsPanel />} overlayClassName="header-overlay header-overlay-settings">
                     <span title={t?.('settings')}>
-                        <Settings size={14} />
+                        <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>
                     </span>
                     </Overlay>
                 )}
-                <LangSetting placement={'left'} />
             </div>
         </header>
     )

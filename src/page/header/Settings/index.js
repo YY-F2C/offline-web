@@ -20,12 +20,12 @@ class Settings extends Component {
     const {t, globalSettings} = this.props
     return (
       <div className="settings">
-        <h3>
-          <span role="img" aria-label="Congratulations">
+        <span className="setting-title">
+          {/* <span role="img" aria-label="Congratulations">
             ⚙️
-          </span>{' '}
+          </span>{' '} */}
           {t('settings title')}
-        </h3>
+        </span>
         <MarkSettings />
         <div className="form">
           <div className="form-item settings-title">{t('language')}</div>

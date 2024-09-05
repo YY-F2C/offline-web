@@ -6,9 +6,10 @@ const Overlay = ({children, ...props}) => (
     trigger={['click']}
     overlayStyle={{width: 320}}
     align={{
-      offset: [0, -10],
+      offset: [0, -14],
     }}
     placement="bottomRight"
+    showArrow={false}
     transitionName="rc-tooltip-slide"
     {...props}
   >

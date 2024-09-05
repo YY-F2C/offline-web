@@ -1,6 +1,13 @@
 @import 'assets/tokens.scss';
 
 .settings{
+  .setting-title {
+    font-family: "PingFang SC";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+  }
   .form{
     &:not(:last-child){
       margin-bottom: 20px;

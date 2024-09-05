@@ -4,9 +4,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
   height: 54px;
-  background: #FFF;
+  background-color: $white-100;
 
   >* {
     z-index: 1;
@@ -55,13 +54,15 @@
   .header-pagename {
     position: absolute;
     left: 50%;
-    line-height: 30px;
+    line-height: 16px;
     text-align: center;
     font-weight: 500;
+    font-size: 16px;
     transform: translateX(-50%);
+    color: #000311;
 
     >span {
-      color: $white-36;
+      color: #000311;
     }
   }
 
@@ -72,8 +73,8 @@
     span,
     a {
       display: inline-block;
-      height: 40px;
-      padding: 13px;
+      height: 54px;
+      padding: 17px 10px;
       transition: background 0.2s;
       cursor: pointer;
 
@@ -82,7 +83,10 @@
       }
 
       &:hover {
-        background: $black;
+        background: $gray;
+      }
+      &:active {
+        background: $gray-1;
       }
     }
   }
@@ -91,6 +95,10 @@
 .header-overlay {
   .rc-tooltip-inner {
     padding: 20px !important;
+    box-shadow: none !important;
+    // background-color: $white-100 !important;
+    background-color: green !important;
+    color: $black-title !important;
 
     h3 {
       margin-top: 0;
