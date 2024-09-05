@@ -51,6 +51,16 @@
     }
   }
 
+  &.btn-black-o{
+    color: $primary-color;
+    border-color: $primary-color;
+    background: transparent;
+    &:hover{
+      color: $white-85;
+      background: $primary-color;
+    }
+  }
+
   &.btn-block{
     display: block;
     width: 100%;

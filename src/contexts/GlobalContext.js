@@ -1,16 +1,23 @@
-import React, {createContext, useState} from 'react'
-import {DEFAULT_SETTINGS, LOCALIZED_SETTING_KEYS} from 'utils/const'
-import {filterLocalizedSettings, getLocalGlobalSettings, setLocalGlobalSettings} from 'utils/helper'
+import React, { createContext, useState, useContext } from 'react';
+
+import { DEFAULT_SETTINGS, LOCALIZED_SETTING_KEYS } from 'utils/const';
+import { filterLocalizedSettings, getLocalGlobalSettings, setLocalGlobalSettings } from 'utils/helper';
 
 const GlobalContext = createContext({
-  globalSettings: {...DEFAULT_SETTINGS},
+  globalSettings: { ...DEFAULT_SETTINGS },
   initGlobalSettings: () => {},
   changeGlobalSetting: () => {},
-})
+});
 
-export const withGlobalContextConsumer = Component => props => (
+// Custom Hook for functional components to use GlobalContext
+export const useGlobalContext = () => {
+  return useContext(GlobalContext);
+};
+
+// HOC for class components or components that prefer HOC usage
+export const withGlobalContextConsumer = (Component) => (props) => (
   <GlobalContext.Consumer>
-    {({globalSettings, initGlobalSettings, changeGlobalSetting}) => (
+    {({ globalSettings, initGlobalSettings, changeGlobalSetting }) => (
       <Component
         globalSettings={globalSettings}
         initGlobalSettings={initGlobalSettings}
@@ -19,51 +26,52 @@ export const withGlobalContextConsumer = Component => props => (
       />
     )}
   </GlobalContext.Consumer>
-)
+);
 
-export const withGlobalContextProvider = Component => {
-  return props => {
-    const [globalSettings, setGlobalSettings] = useState(DEFAULT_SETTINGS)
+// GlobalContext Provider
+export const withGlobalContextProvider = (Component) => {
+  return (props) => {
+    const [globalSettings, setGlobalSettings] = useState(DEFAULT_SETTINGS);
 
-    // 初始化设置项
-    const handleInitGlobalSettings = settings => {
-      const localSettings = getLocalGlobalSettings()
-      const filteredLocalSettings = filterLocalizedSettings(localSettings || {})
+    // Initialize settings
+    const handleInitGlobalSettings = (settings) => {
+      const localSettings = getLocalGlobalSettings();
+      const filteredLocalSettings = filterLocalizedSettings(localSettings || {});
 
-      // 全局 context = 默认+用户设置+本地
+      // Merge default, user-provided, and local settings
       const combinedSettings = {
         ...DEFAULT_SETTINGS,
         ...settings,
         ...filteredLocalSettings,
-      }
-      // 如果本地没有，需要把这个存到本地
-      if (!localSettings) {
-        setLocalGlobalSettings(combinedSettings)
-      }
-      setGlobalSettings(combinedSettings)
-    }
+      };
 
-    // 更新某个设置项
+      // Save settings to local storage if none exist
+      if (!localSettings) {
+        setLocalGlobalSettings(combinedSettings);
+      }
+      setGlobalSettings(combinedSettings);
+    };
+
+    // Update a setting
     const handleChangeGlobalSetting = (key, value) => {
-      let newGlobalSettings
-      let shouldLocalize = false
+      let newGlobalSettings;
+      let shouldLocalize = false;
       if (value === undefined) {
-        const settings = {...key}
-        // 只有一个参数，修改多个设置项
-        newGlobalSettings = {...globalSettings, ...settings}
+        const settings = { ...key };
+        newGlobalSettings = { ...globalSettings, ...settings };
         shouldLocalize = !!Object.keys(settings)
           // eslint-disable-next-line
-          .filter(key => LOCALIZED_SETTING_KEYS.includes(key)).length
+          .filter((key) => LOCALIZED_SETTING_KEYS.includes(key)).length;
       } else {
-        newGlobalSettings = {...globalSettings, [key]: value}
-        shouldLocalize = LOCALIZED_SETTING_KEYS.includes(key)
+        newGlobalSettings = { ...globalSettings, [key]: value };
+        shouldLocalize = LOCALIZED_SETTING_KEYS.includes(key);
       }
-      // 如果需要本地化的还要存储到本地
+
       if (shouldLocalize) {
-        setLocalGlobalSettings(newGlobalSettings)
+        setLocalGlobalSettings(newGlobalSettings);
       }
-      setGlobalSettings(newGlobalSettings)
-    }
+      setGlobalSettings(newGlobalSettings);
+    };
 
     return (
       <GlobalContext.Provider
@@ -80,8 +88,8 @@ export const withGlobalContextProvider = Component => {
           {...props}
         />
       </GlobalContext.Provider>
-    )
-  }
-}
+    );
+  };
+};
 
-export default GlobalContext
+export default GlobalContext;

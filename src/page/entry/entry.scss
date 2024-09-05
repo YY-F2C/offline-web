@@ -5,7 +5,8 @@
   flex: 1;
   align-items: center;
   justify-content: center;
-  background: $black-0;
+  background: $backgroundBg;
+  color: $baseFontColor;
 
   .entry-producthunt {
     position: fixed;
@@ -23,10 +24,12 @@
     padding: 60px 0;
 
     .entry-logo {
+      width: 100%;
       text-align: center;
 
       img {
-        width: 120px;
+        width: 360px;
+        height: auto;
       }
     }
 

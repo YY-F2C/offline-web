@@ -7,7 +7,7 @@ import Header from 'page/header';
 import 'assets/base.scss';
 import './app.scss';
 
-const App = (props) => {
+const App = (props: any) => {
     const {FILE_DATA, PAGED_FRAMES, SETTINGS} = window
     const mode = FILE_DATA ? 'local' : 'online'
     
@@ -38,7 +38,7 @@ const App = (props) => {
     const [backFromDemo, setBackFromDemo] = useState(true)
     const [entryVisible, setEntryVisible] = useState(mode === 'local' ? false : isMock)
     
-    const handleDataGot = useCallback((fileData, components, styles, exportSettings, pagedFrames) => {
+    const handleDataGot = useCallback((fileData: any, components: any, styles: any, exportSettings: any, pagedFrames: any) => {
         setEntryVisible(false);
         
         setData(fileData);
@@ -49,12 +49,11 @@ const App = (props) => {
         setExportSettings(exportSettings);
     }, []);
 
-    const handleComponentsOptionChange = useCallback(includeComponents => {
+    const handleComponentsOptionChange = useCallback((includeComponents: any) => {
         setIncludeComponents(includeComponents);
     }, []);
 
     const handleBack = useCallback(() => {
-        console.info('onHeaderBack-------', onHeaderBack)
         if (onHeaderBack) {
             onHeaderBack();
         } else {
@@ -64,7 +63,7 @@ const App = (props) => {
         }
     }, [onHeaderBack]);
 
-    const getNames = useCallback((frameName, pageName) => {
+    const getNames = useCallback((frameName: string, pageName: string) => {
         setNames({
             documentName: data.name,
             pageName: pageName || data.document.children[0].name,

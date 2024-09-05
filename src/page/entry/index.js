@@ -57,7 +57,8 @@ class Entry extends React.Component {
           {/* <ProductHunt /> */}
           <div className="entry-logo">
             {/* <img className="hide" src={`/figmacn-logo.svg`} alt="figmacn logo" ref={this.figmacnLogo} /> */}
-            <F2cLog size={120} />
+            {/* <F2cLog size={120} /> */}
+            <img src='https://med-fe.cdn.bcebos.com/f2c_offline/Frame%20298.png' />
           </div>
           <div className={cn('entry-main', {hide: coffeeVisible})}>
             <p>{t('use plugin description')}</p>
@@ -71,11 +72,11 @@ class Entry extends React.Component {
               >
                 <Package size={16} /> {t('start now')}
               </a>
-              <button className="btn btn-lg btn-white-o btn-round" onClick={this.gotoDemo} disabled={isLoadingDemo}>
+              <button className="btn btn-lg btn-black-o btn-round" onClick={this.gotoDemo} disabled={isLoadingDemo}>
                 {isLoadingDemo ? t('demo loading') : t('demo')}
               </button>
               <a
-                className="btn btn-lg btn-white-o btn-round"
+                className="btn btn-lg btn-black-o btn-round"
                 href="https://github.com/YY-F2C/offline-web"
                 target="_blank"
                 rel="noopener noreferrer"
