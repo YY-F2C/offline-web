@@ -36,6 +36,8 @@
   &.btn-primary{
     color: #FFF;
     background: $primary-color;
+    border-width: 2px;
+
     &:hover{
       background: darken($primary-color, 6%);
     }
@@ -53,8 +55,10 @@
 
   &.btn-black-o{
     color: $primary-color;
-    border-color: $primary-color;
+    border-color: $primary-color-50;
     background: transparent;
+    border-width: 1px;
+
     &:hover{
       color: $white-85;
       background: $primary-color;

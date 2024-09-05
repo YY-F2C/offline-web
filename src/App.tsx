@@ -97,8 +97,13 @@ const App = (props: any) => {
                 />
             )
     }, [
+        names,
+        mode,
         data,
         styles,
+        isMock,
+        versionData,
+        getNames,
         components,
         pagedFrames,
         entryVisible,
