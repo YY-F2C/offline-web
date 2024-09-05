@@ -9,12 +9,10 @@ import SettingsPanel from './Settings'
 
 import './header.scss'
 
-const Header = (props) => {
+const Header = (props: any) => {
     const {
         pageName, 
         frameName,
-        mode,
-        documentName,
         isComponent,
         onBack,
     } = props;
@@ -43,9 +41,7 @@ const Header = (props) => {
                         {frameName}
                     </span>
                 )
-                : (
-                    <span className="header-pagename">F2C Offline</span>
-                )
+                : null
             }
             <div className="header-operates">
                 {hasNames && (
