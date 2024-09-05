@@ -75,7 +75,7 @@
     a {
       display: inline-block;
       height: 54px;
-      padding: 17px 10px;
+      padding: 17px;
       transition: background 0.2s;
       cursor: pointer;
 
@@ -94,11 +94,13 @@
 }
 
 .header-overlay {
+  .rc-tooltip-content {
+    width: 259px;
+  }
   .rc-tooltip-inner {
     padding: 20px !important;
     box-shadow: none !important;
-    // background-color: $white-100 !important;
-    background-color: green !important;
+    background-color: $white-100 !important;
     color: $black-title !important;
 
     h3 {

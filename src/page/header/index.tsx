@@ -1,11 +1,11 @@
 import React, { memo, useMemo, Fragment } from "react"
 import {ChevronLeft, Settings} from 'react-feather'
 import { useTranslation } from 'react-i18next';
-
-import LangSetting from 'components/LangSetting';
+import { Popover, Button } from 'antd';
+import LangSetting from 'page/entry/LangSetting';
 
 import Overlay from './Overlay'
-import SettingsPanel from './Settings'
+import SettingsPanel from './Settings/index.tsx'
 
 import './header.scss'
 
@@ -45,11 +45,14 @@ const Header = (props: any) => {
             }
             <div className="header-operates">
                 {hasNames && (
-                    <Overlay overlay={<SettingsPanel />} overlayClassName="header-overlay header-overlay-settings">
-                    <span title={t?.('settings')}>
-                        <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>
-                    </span>
-                    </Overlay>
+                <Popover
+                     content={<SettingsPanel/>}
+                     trigger="click"
+                     placement="bottomRight"
+                     overlayClassName="header-overlay"
+                 >
+                     <Button type="link" icon={ <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>} title={t?.('settings')} />
+                 </Popover>
                 )}
             </div>
         </header>

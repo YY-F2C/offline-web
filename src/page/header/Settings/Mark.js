@@ -63,7 +63,7 @@ class MarkSettings extends Component {
     ] // [Web, iOS, Android]
     return (
       <div className="form">
-        <div className="form-item settings-title">{t('settings mark')}</div>
+        <div className="form-item settings-design">{t('settings mark')}</div>
         <div className="form-item form-item-horizontal">
           <label htmlFor="platform" className="item-label">
             {t('settings platform')}

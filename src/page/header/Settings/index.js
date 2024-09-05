@@ -1,7 +1,7 @@
 import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React, {Component} from 'react'
 import {withTranslation} from 'react-i18next'
-import MarkSettings from './Mark'
+import MarkSettings from './Mark.tsx'
 import './settings.scss'
 
 class Settings extends Component {
@@ -28,7 +28,7 @@ class Settings extends Component {
         </span>
         <MarkSettings />
         <div className="form">
-          <div className="form-item settings-title">{t('language')}</div>
+          <div className="form-item settings-design">{t('language')}</div>
           <div className="form-item">
             <select name="language" className="input" value={globalSettings.language} onChange={this.changeLanguage}>
               <option value="en">English</option>

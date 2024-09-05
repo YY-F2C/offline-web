@@ -6,7 +6,7 @@ const Overlay = ({children, ...props}) => (
     trigger={['click']}
     overlayStyle={{width: 320}}
     align={{
-      offset: [0, -14],
+      offset: [30, -14],
     }}
     placement="bottomRight"
     showArrow={false}
