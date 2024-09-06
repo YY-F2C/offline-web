@@ -1,0 +1,49 @@
+@import 'assets/tokens.scss';
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 54px;
+  background-color: $white-100;
+
+  >* {
+    z-index: 1;
+  }
+
+  .logo {
+    padding: 5px 0;
+    padding-left: 6px;
+    cursor: pointer;
+
+    img {
+      display: block;
+      height: 30px;
+      padding: 5px;
+    }
+  }
+
+  .space {
+    flex: 1;
+  }
+
+  .pagename {
+    position: absolute;
+    left: 50%;
+    line-height: 16px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    transform: translateX(-50%);
+    color: #000311;
+
+    >span {
+      color: #000311;
+    }
+  }
+
+  .operates {
+    cursor: pointer;
+    margin-right: 17px;
+  }
+}

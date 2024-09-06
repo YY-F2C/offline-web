@@ -1,13 +1,11 @@
-import React, { memo, useMemo, Fragment } from "react"
+import React, { memo, useMemo, Fragment, useState, useCallback } from "react"
 import {ChevronLeft, Settings} from 'react-feather'
 import { useTranslation } from 'react-i18next';
 import { Popover, Button } from 'antd';
-import LangSetting from 'page/entry/LangSetting';
 
-import Overlay from './Overlay'
 import SettingsPanel from './Settings/index.tsx'
 
-import './header.scss'
+import styles from './index.module.scss'
 
 const Header = (props: any) => {
     const {
@@ -23,15 +21,21 @@ const Header = (props: any) => {
         return !!(pageName && frameName);
     }, [pageName, frameName]);
 
+    const [popVisible, setPopVisible] = useState(false);
+
+    const handleVisibleChange = useCallback(() => {
+        setPopVisible(prevPopVisible => !prevPopVisible);
+      }, []);
+
     return (
-        <header className="app-header">
-            <a className="header-logo" rel="noopener noreferrer" onClick={onBack}>
+        <header className={styles.header}>
+            <a className={styles.logo} rel="noopener noreferrer" onClick={onBack}>
                 <img src="https://med-fe.cdn.bcebos.com/f2c_offline/Frame%20298.png" alt="" />
             </a>
-            <span className="header-space" />
+            <span className={styles.space} />
             {hasNames 
                 ? (
-                    <span className="header-pagename">
+                    <span className={styles.pagename}>
                         {!isComponent && (
                         <Fragment>
                             {pageName}
@@ -43,15 +47,23 @@ const Header = (props: any) => {
                 )
                 : null
             }
-            <div className="header-operates">
+            <div>
                 {hasNames && (
                 <Popover
-                     content={<SettingsPanel/>}
-                     trigger="click"
-                     placement="bottomRight"
-                     overlayClassName="header-overlay"
+                    arrow={false}
+                    className={styles.operates}
+                    content={<SettingsPanel/>}
+                    trigger="click"
+                    open={popVisible}
+                    placement="bottomRight"
                  >
-                     <Button type="link" icon={ <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>} title={t?.('settings')} />
+                     <Button 
+                        onClick={handleVisibleChange} 
+                        className={styles.icon} 
+                        type="text" 
+                        icon={ <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>} 
+                        title={t?.('settings')} 
+                    />
                  </Popover>
                 )}
             </div>
