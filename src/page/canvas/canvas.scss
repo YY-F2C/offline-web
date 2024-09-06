@@ -50,7 +50,7 @@
         border-style: dotted;
       }
       &.selected{
-        border: 1px solid $mark-selected;
+        border: 1px solid $primary-color;
         opacity: 1;
         &.has-exports{
           opacity: 1;
@@ -96,7 +96,7 @@
         position: absolute;
         padding: 0 6px;
         border-radius: 2px;
-        background: $mark-selected;
+        background: $primary-color;
         font-size: 12px;
         pointer-events: none;
         z-index: 1;
