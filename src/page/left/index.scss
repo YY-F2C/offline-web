@@ -25,7 +25,7 @@
     width: 240px;
     height: 100%;
     flex-shrink: 0;
-    background: #222531;
+    background: $baseBackgroundBg;
     .left-sider-tabs{
       display: flex;
       justify-content: space-around;
@@ -51,7 +51,6 @@
       .list-filter{
         position: relative;
         padding: 12px;
-        border-bottom: 1px solid $black-4;
         >.filter-clear{
           position: absolute;
           right: 16px;
@@ -76,13 +75,13 @@
           cursor: pointer;
           transition: background 0.2s;
           &:hover{
-            background: #141723;
+            background: $green;
           }
           &-hidden{
             display: none;
           }
           &.selected{
-            background: #303446;
+            background: $green-1;
           }
           .item-thumbnail{
             flex-shrink: 0;
@@ -105,7 +104,6 @@
         }
         &.frames {
           .frames-page {
-            border-bottom: 1px solid $black-4;
             &:last-child {
               border-bottom: none;
             }
@@ -117,8 +115,8 @@
               margin: 0;
               padding: 6px 12px;
               font-size: 12px;
-              color: $white-65;
-              background-color: $black-3;
+              color: $black-title;
+              background-color: $baseBackgroundBg;
               cursor: pointer;
               z-index: 1;
               span {
@@ -126,9 +124,6 @@
               }
               svg {
                 transition: transform 0.2s;
-              }
-              &:hover{
-                background: $black-2;
               }
             }
             >ul {

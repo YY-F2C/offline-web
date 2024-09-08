@@ -12,15 +12,15 @@ class LeftPanel extends React.Component {
   state = {
     tabIndex: 0,
   }
-  handleTabClick = index => {
-    const {tabIndex} = this.state
-    if (tabIndex === index) return
-    this.setState({tabIndex: index})
-  }
+  // handleTabClick = index => {
+  //   const {tabIndex} = this.state
+  //   if (tabIndex === index) return
+  //   this.setState({tabIndex: index})
+  // }
 
   render() {
     const {
-      components,
+      // components,
       includeComponents,
       mode,
       isMock,
@@ -28,7 +28,7 @@ class LeftPanel extends React.Component {
       globalSettings,
       onSiderTransitionEnd,
       onFrameOrComponentChange,
-      t,
+      // t,
     } = this.props
     const {leftCollapse} = globalSettings
     const {tabIndex} = this.state
@@ -36,7 +36,7 @@ class LeftPanel extends React.Component {
       <div className={cn('main-left', {collapsed: leftCollapse})} onTransitionEnd={onSiderTransitionEnd}>
         <CollapseButton placement="left" />
         <div className="left-sider">
-          {!!includeComponents && (
+          {/* {!!includeComponents && (
             <ul className="left-sider-tabs">
               <li className={cn({selected: tabIndex === 0})} onClick={() => this.handleTabClick(0)}>
                 {t('pages')}
@@ -45,7 +45,7 @@ class LeftPanel extends React.Component {
                 {t('components')}
               </li>
             </ul>
-          )}
+          )} */}
           <div
             className={cn('left-sider-list', {
               'without-tab': !includeComponents,
@@ -71,7 +71,7 @@ class LeftPanel extends React.Component {
                 />
               )
             }
-            {!!includeComponents && (
+            {/* {!!includeComponents && (
               <Components
                 visible={tabIndex === 1}
                 components={components}
@@ -79,7 +79,7 @@ class LeftPanel extends React.Component {
                 isMock={isMock}
                 onComponentChange={onFrameOrComponentChange}
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>

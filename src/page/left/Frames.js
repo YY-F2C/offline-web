@@ -106,8 +106,8 @@ class Frames extends React.Component {
                 })}
               >
                 <h4 onClick={() => this.togglePage(key)}>
-                  <span>{pagedFrames[key].name}</span>
                   <ChevronDown size={16} />
+                  <span>{pagedFrames[key].name}</span>
                 </h4>
                 <ul className="frames-items" style={{height: `${frames.length * 70}px`}}>
                   {frames.map(frame => (
