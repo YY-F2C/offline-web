@@ -120,10 +120,13 @@ const MarkSettings = () => {
           {unit === 3 || unit === 4 ? (
               <Form.Item label={t('(r)em base')} name="remBase">
               <InputNumber
-                  min={1}
-                  max={100}
-                  precision={0}
-                  onChange={handleRemBaseChange}
+                name="remBase"
+                placeholder={t('(r)em base placeholder')}
+                min={1}
+                max={100}
+                precision={0}
+                value={remBase}
+                onChange={handleRemBaseChange}
               />
               </Form.Item>
           ) : null}

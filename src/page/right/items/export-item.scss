@@ -1,3 +1,5 @@
+@import 'assets/tokens.scss';
+
 .export-item{
   display: flex;
   align-items: center;
@@ -9,6 +11,9 @@
     >svg{
       opacity: 1;
     }
+  }
+  &:active {
+    background: $green-1;
   }
   &-downloading{
     >svg{

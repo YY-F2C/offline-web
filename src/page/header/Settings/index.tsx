@@ -8,8 +8,6 @@ import styles from './index.module.scss'
 
 const { Option } = Select;
 
-
-
 const Settings = () => {
   const { t, i18n } = useTranslation('header');
   const { globalSettings, changeGlobalSetting } = useGlobalContext();
