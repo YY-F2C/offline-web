@@ -78,7 +78,10 @@ const MarkSettings = () => {
           onValuesChange={handleChange}
           >
           <Form.Item label={t('settings platform')} name="platform">
-              <Select placeholder={t('platform placeholder')}>
+              <Select 
+                getPopupContainer={triggerNode => triggerNode.parentNode} 
+                placeholder={t('platform placeholder')}
+              >
               {PLATFORMS.map((platform, index) => (
                   <Option key={index} value={index}>
                       {platform}
@@ -88,17 +91,23 @@ const MarkSettings = () => {
           </Form.Item>
 
           <Form.Item label={platform === 0 ? t('multiple') : t('pixel density')} name="resolution">
-              <Select disabled={unit === 3 || unit === 4}>
-              {resolutions[platform].map((resolution, index) => (
-                  <Option key={index} value={index}>
-                  {resolution.label}
-                  </Option>
-              ))}
+              <Select
+                getPopupContainer={triggerNode => triggerNode.parentNode}
+                disabled={unit === 3 || unit === 4}
+              >
+                {resolutions[platform].map((resolution, index) => (
+                    <Option key={index} value={index}>
+                    {resolution.label}
+                    </Option>
+                ))}
               </Select>
           </Form.Item>
 
           <Form.Item label={t('unit')} name="unit">
-              <Select placeholder={t('unit placeholder')}>
+              <Select
+                getPopupContainer={triggerNode => triggerNode.parentNode}
+                placeholder={t('unit placeholder')}
+              >
               {unitMaps[platform].map(index => (
                   <Option key={index} value={index}>
                   {UNITS[index]}
@@ -120,7 +129,7 @@ const MarkSettings = () => {
           ) : null}
            <div className={styles.settingTip}>{t('format')}</div>
           <Form.Item label={t('number format')} name="numberFormat">
-              <Select>
+              <Select getPopupContainer={triggerNode => triggerNode.parentNode}>
               {NUMBER_FORMATS.map((format, index) => (
                   <Option key={index} value={index}>
                   {t(format)}

@@ -55,10 +55,10 @@ const Header = (props: any) => {
                     content={<SettingsPanel/>}
                     trigger="click"
                     open={popVisible}
+                    onOpenChange={handleVisibleChange}
                     placement="bottomRight"
                  >
                      <Button 
-                        onClick={handleVisibleChange} 
                         className={styles.icon} 
                         type="text" 
                         icon={ <img src='https://med-fe.cdn.bcebos.com/f2c_offline/setting.png' alt=''/>} 

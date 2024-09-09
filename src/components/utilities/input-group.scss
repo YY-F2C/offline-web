@@ -1,3 +1,4 @@
+@import "assets/tokens.scss";
 .input-group{
   position: relative;
   display: flex;
@@ -24,7 +25,7 @@
       background: transparent;
     }
     &:hover{
-      background: #1C1F2A;
+      background: $green;
     }
   }
 }

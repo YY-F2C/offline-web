@@ -1,4 +1,3 @@
-import Tooltip from 'rc-tooltip'
 import React from 'react'
 import { Popover } from 'antd';
 

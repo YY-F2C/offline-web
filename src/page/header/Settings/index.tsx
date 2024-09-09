@@ -35,6 +35,7 @@ const Settings = () => {
         <Form>
           <Form.Item label={t('language')}>
             <Select
+              getPopupContainer={triggerNode => triggerNode.parentNode}
               value={globalSettings.language}
               onChange={changeLanguage}
             >

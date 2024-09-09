@@ -22,6 +22,10 @@ const FormConfigProvider = ({ children, config = {} }) => {
                 optionSelectedBg: '#b0eeee',
                 optionActiveBg: '#e6fafa',
             },
+            Checkbox: {
+                colorPrimary: '#b0eeee',
+                colorPrimaryHover: '#b0eeee',
+            }
         },
     };
   return <ConfigProvider theme={formTheme}>{children}</ConfigProvider>;
