@@ -50,7 +50,6 @@ class RightPanel extends React.Component {
     })
   }
   componentDidMount() {
-    console.log('ppp');
     // const { styles } = this.props
   }
   render() {
@@ -58,7 +57,6 @@ class RightPanel extends React.Component {
     
     const {tabIndex, percentage, progressText} = this.state
     const {protocol} = window.location
-    console.log(exportSettings, protocol, 'kkk');
     return (
       <div className="right-panel">
         <div className={cn('panel-exports')}>
@@ -75,8 +73,6 @@ class RightPanel extends React.Component {
           )}
           {!!exportSettings.length ? (
             exportSettings.map((exportSetting, index) => {
-                console.log('pppffff');
-                
                 return (
               <div key={index}>
                 <ExportItem mode={mode} isMock={isMock} exportSetting={exportSetting} index={index} />

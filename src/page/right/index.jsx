@@ -78,9 +78,6 @@ const Right = (props) => {
   };
 
   const buildMark = useMemo(() => {
-    console.log(closestComponent, 'closestComponent')
-    console.log(mode, isMock, elementData, closestComponent, styles, exportSettings, currentExportIds, currentIndex, 'fffff');
-    
     return elementData ? 
       <Mark
         mode={mode}

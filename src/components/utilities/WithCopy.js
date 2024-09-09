@@ -1,10 +1,12 @@
-import Tooltip from 'rc-tooltip'
 import React, {useState} from 'react'
-import {withTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+import { Popover } from 'antd';
 import {copySomething} from 'utils/helper'
 
-const WithCopy = ({children, text, className, callback, t, props}) => {
+const WithCopy = ({children, text, className, callback, props}) => {
   const [visible, setVisible] = useState(false)
+  const { t } = useTranslation('utilities')
+  
   const onCopied = () => {
     const timer = setTimeout(() => {
       setVisible(false)
@@ -17,19 +19,18 @@ const WithCopy = ({children, text, className, callback, t, props}) => {
     callback && callback()
   }
   return (
-    <Tooltip
-      visible={visible}
-      trigger={['click']}
-      overlay={t('copied tip')}
-      placement="top"
-      transitionName="rc-tooltip-slide"
+    <Popover
+      content={t('copied tip')}
+      trigger="click"
+      open={visible}
+      arrow={false}
       {...props}
     >
       <span className={className} onClick={copySomething(text, afterCopy)}>
         {children}
       </span>
-    </Tooltip>
+    </Popover>
   )
 }
 
-export default withTranslation('utilities')(WithCopy)
+export default WithCopy

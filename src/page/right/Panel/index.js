@@ -63,7 +63,6 @@ class RightPanel extends React.Component {
   render() {
     const {mode, isMock, styles, exportSettings, propsPanelState, onShowDetail, versionData, t} = this.props
     const {tabIndex, percentage, progressText} = this.state
-    console.log(window, 'window');
     
     const {protocol} = window.location
     return (

@@ -81,7 +81,6 @@ class RightProps extends React.Component {
       t,
     } = this.props
     const {node} = elementData
-    console.log(elementData, 'mark 里面的elementData');
     
     const {strokes, effects, styles: nodeStyles} = node
     const {fills, exportSettings, flag, isPieceSelected, textStyle} = this.state

@@ -36,7 +36,6 @@ const MarkSettings = () => {
 
   const handleChange = useCallback((value) => {
     const {platform} = value;
-    console.log(value, 'pppp');
     
     // const { name, value } = e.target;
     // const changedSettings = {
