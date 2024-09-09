@@ -2,15 +2,15 @@
 @import 'prismjs/themes/prism-tomorrow.css';
 
 .right-props {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #222531;
-  overflow: auto;
-  z-index: 1;
-  transition: transform 0.2s;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
+  // background: #222531;
+  // overflow: auto;
+  // z-index: 1;
+  // transition: transform 0.2s;
 
   &-starting {
     transform: translateX(260px);
@@ -28,7 +28,7 @@
 
   .props-section {
     padding: 12px;
-    border-bottom: 1px solid #383941;
+    border-bottom: 1px solid #ededf0;
 
     &:last-child {
       border-bottom: none;
@@ -42,17 +42,25 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      align-self: stretch;
+      color: #000;
+      font-family: "PingFang SC";
+      font-size: 14px;
+      font-weight: 500;
 
       .title-name {
+        
         flex: 1;
       }
 
       &.section-name {
         margin: 0;
-
+        font-weight: 400;
+        .ant-select-selector {
+          width: 65px !important;
+        }
         span {
           flex: 1;
-          margin-right: 6px;
           overflow: hidden;
           text-overflow: ellipsis;
         }
@@ -71,6 +79,14 @@
     }
 
     .section-items {
+      .copiable-input {
+        display: flex;
+        align-items: center;
+        align-content: space-around;
+        background: none;
+        border-radius: 2px;
+        transition: background 0.2s;
+      }
       .item-block {
         margin-bottom: 6px;
 
@@ -79,7 +95,6 @@
         }
       }
     }
-
     &.props-strokes {
       .mixed-strokes {
         margin-top: 4px;
@@ -114,7 +129,7 @@
               flex-shrink: 0;
               width: 60px;
               margin-right: 6px;
-              color: $white-36;
+              color: $primary-color;
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;
@@ -126,12 +141,14 @@
 
     &.props-basic {
       .section-items {
+        height: 70px;
+        font-size: 12px;
         display: flex;
         flex-flow: wrap;
+        align-content: space-around;
         justify-content: space-between;
         width: 100%;
         font-size: 12px;
-
         .copiable-input {
           flex: 0 1 47%;
         }
@@ -142,20 +159,26 @@
       .section-items {
         position: relative;
         border-radius: 2px;
-        background: $black-2;
-
+        font-size: 12px;
+        background: $backgroundBg;
+        color: #000311;
         .code-copy {
           position: absolute;
           top: 8px;
           right: 6px;
           width: 14px;
           height: 14px;
-          color: $white-36;
+          color: #a9abb4;
           cursor: pointer;
           transition: color 0.2s;
 
+      
           &:hover {
-            color: $white-85;
+            color: $gray;
+          }
+
+          &:active {
+            color: $gray-1;
           }
         }
 
@@ -166,6 +189,13 @@
           padding: 12px;
           overflow-x: auto;
           white-space: pre-wrap;
+          .token.property {
+            color: #00c8c8;
+          }
+          .token.function {
+            color: #000311;
+          }
+
         }
       }
     }

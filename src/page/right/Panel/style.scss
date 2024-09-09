@@ -2,7 +2,7 @@
 
 .right-panel{
   height: 100%;
-  background: #222531;
+  background: #FFFFFF;
   transition: transform 0.2s;
   .panel-mask {
     position: absolute;
@@ -71,15 +71,15 @@
       align-items: center;
       justify-content: flex-end;
       padding: 6px 12px;
-      color: $white-65;
+      color: $black-title;
       transition: background 0.2s, color 0.2s;
       cursor: pointer;
       &.is-downloading{
         justify-content: flex-start;
       }
       &:hover{
-        color: $white-85;
-        background: #141723;
+        color: $black-title;
+        background: #e6fafa;
       }
       svg{
         margin-left: 6px;

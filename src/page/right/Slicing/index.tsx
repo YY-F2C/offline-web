@@ -5,11 +5,8 @@ import JSZip from 'jszip'
 import React, {Fragment} from 'react'
 import {Clock, DownloadCloud, Droplet, Image} from 'react-feather'
 import {withTranslation} from 'react-i18next'
-import {STYLE_TYPES} from 'utils/const'
 import {asyncForEach, getImageUrl, isAllImageFill} from 'utils/helper'
 import {ExportItem, StyleItem} from '../items'
-import Versions from './Versions'
-import './style.scss'
 
 class RightPanel extends React.Component {
   state = {
@@ -17,12 +14,7 @@ class RightPanel extends React.Component {
     percentage: 0,
     progressText: '',
   }
-  changeTab = index => {
-    const {tabIndex} = this.state
-    if (tabIndex !== index) {
-      this.setState({tabIndex: index})
-    }
-  }
+  
   setProgress = (percentage, progressText) => {
     this.setState({
       percentage,
@@ -58,61 +50,20 @@ class RightPanel extends React.Component {
     })
   }
   componentDidMount() {
+    console.log('ppp');
     // const { styles } = this.props
   }
   render() {
-    const {mode, isMock, styles, exportSettings, propsPanelState, onShowDetail, versionData, t} = this.props
-    const {tabIndex, percentage, progressText} = this.state
-    console.log(window, 'window');
+    const {mode, isMock, exportSettings, t} = this.props
     
+    const {tabIndex, percentage, progressText} = this.state
     const {protocol} = window.location
+    console.log(exportSettings, protocol, 'kkk');
     return (
       <div className="right-panel">
-        <div className={cn('panel-mask', `mask-${propsPanelState}`)} />
-        <ul className="panel-tabs">
-          <li className={cn({selected: tabIndex === 0})} onClick={() => this.changeTab(0)}>
-            <Droplet size={14} />
-            {t('tab style')}
-          </li>
-          <li className={cn({selected: tabIndex === 1})} onClick={() => this.changeTab(1)}>
-            <Image size={14} />
-            {t('tab slice')}
-          </li>
-          {versionData && (
-            <li className={cn({selected: tabIndex === 2})} onClick={() => this.changeTab(2)}>
-              <Clock size={14} />
-              {t('tab version')}
-            </li>
-          )}
-        </ul>
-        <ul className={cn('panel-list', {hide: tabIndex !== 0})}>
-          {Object.keys(styles).map(
-            key =>
-              key !== 'GRID' &&
-              styles[key] && (
-                <Fragment key={key}>
-                  <li className="list-title">{t(STYLE_TYPES[key])}</li>
-                  {styles[key] &&
-                    styles[key]
-                      .filter(style => (key === 'FILL' ? !isAllImageFill(style.items) : true))
-                      .map((style, index) => (
-                        <li key={index}>
-                          <StyleItem
-                            styles={style.items}
-                            styleName={style.name}
-                            styleType={style.styleType}
-                            isSelectable
-                            onClick={() => onShowDetail(style)}
-                          />
-                        </li>
-                      ))}
-                </Fragment>
-              ),
-          )}
-        </ul>
-        <ul className={cn('panel-exports', {hide: tabIndex !== 1})}>
+        <div className={cn('panel-exports')}>
           {/^http/.test(protocol) && !!exportSettings.length && (
-            <li
+            <div
               className={cn('exports-download-all', {
                 'is-downloading': percentage,
               })}
@@ -120,19 +71,21 @@ class RightPanel extends React.Component {
             >
               <span>{progressText || t('download all')}</span> {!percentage && <DownloadCloud size={14} />}
               <div className="download-all-progress" style={{width: `${percentage}%`}} />
-            </li>
+            </div>
           )}
           {!!exportSettings.length ? (
-            exportSettings.map((exportSetting, index) => (
-              <li key={index}>
+            exportSettings.map((exportSetting, index) => {
+                console.log('pppffff');
+                
+                return (
+              <div key={index}>
                 <ExportItem mode={mode} isMock={isMock} exportSetting={exportSetting} index={index} />
-              </li>
-            ))
+              </div>
+            )})
           ) : (
             <li className="exports-empty">{t('no exports')}</li>
           )}
-        </ul>
-        {versionData && <Versions visible={tabIndex !== 2} versionData={versionData} />}
+        </div>
       </div>
     )
   }

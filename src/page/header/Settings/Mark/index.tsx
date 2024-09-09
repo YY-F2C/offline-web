@@ -3,7 +3,7 @@ import InputNumber from 'rc-input-number';
 import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
 import { useGlobalContext } from 'contexts/GlobalContext';
-import FormConfigProvider from 'contexts/FormContext';
+import FormConfigProvider from 'contexts/FormConfigProvider';
 import { ANDROID_DENSITY, IOS_DENSITY, NUMBER_FORMATS, PLATFORMS, UNITS, WEB_MULTIPLE } from 'utils/const';
 import styles from './index.module.scss';
 

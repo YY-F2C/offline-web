@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import {WithCopy} from 'components/utilities'
 import Tooltip from 'rc-tooltip'
+import {CopiableInput, WithCopy} from 'components/utilities'
 import React, {Fragment} from 'react'
 import {Copy, HelpCircle} from 'react-feather'
 import {withTranslation} from 'react-i18next'
@@ -52,7 +52,7 @@ class FontPanel extends React.Component {
       <div className="props-section props-text">
         <h5 className="section-title">
           <span className="title-name">{t('text')}</span>
-          {selected === null && !stylePropertiesVisible && (
+          {/* {selected === null && !stylePropertiesVisible && (
             <StyleReference
               styleItems={style}
               styles={styles}
@@ -60,15 +60,16 @@ class FontPanel extends React.Component {
               type="text"
               onShowStyleDetail={onShowStyleDetail}
             />
-          )}
+          )} */}
         </h5>
         <div className="text-content">
-          <WithCopy text={node.characters} className="content-copy">
-            <Copy size={14} />
-          </WithCopy>
+          {/* <WithCopy text={node.characters} className="content-copy">
+            <Copy size={12} />
+          </WithCopy> */}
           <div className="content-box" onClick={this.onDeselectPiece}>
             {textTable.length === 0 ? (
-              <span>{node.characters}</span>
+                <CopiableInput isQuiet value={node.characters} />
+              // <span>{node.characters}</span>
             ) : (
               textTable.map((piece, index) => (
                 <PieceWithCopy
@@ -80,7 +81,7 @@ class FontPanel extends React.Component {
               ))
             )}
           </div>
-          {!!textTable.length && propsSider && (
+          {/* {!!textTable.length && propsSider && (
             <Tooltip
               trigger={['click']}
               overlay={() => (
@@ -101,7 +102,7 @@ class FontPanel extends React.Component {
                 <span>{t('multiple text styles')}</span> <HelpCircle size={12} />
               </p>
             </Tooltip>
-          )}
+          )} */}
         </div>
         {stylePropertiesVisible ? (
           <StyleMeta nodeStyles={nodeStyles} type="text" />

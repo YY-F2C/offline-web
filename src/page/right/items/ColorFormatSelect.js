@@ -1,12 +1,15 @@
 import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React, {useState, useEffect} from 'react'
+import FormConfigProvider from 'contexts/FormConfigProvider';
+import { Select } from 'antd'
 import {ANDROID_COLOR_FORMATS, COLOR_FORMATS} from 'utils/const'
-import './color-format-select.scss'
+// import './color-format-select.scss'
+
+const {Option} = Select;
 
 const ColorFormatSelect = ({globalSettings, changeGlobalSetting}) => {
   const [colorFormat, setColorFormat] = useState(globalSettings.colorFormat || 0)
-  const changeColorFormat = e => {
-    const value = e.target.value - 0
+  const changeColorFormat = (value) => {
     setColorFormat(value)
     changeGlobalSetting && changeGlobalSetting('colorFormat', value)
   }
@@ -18,13 +21,16 @@ const ColorFormatSelect = ({globalSettings, changeGlobalSetting}) => {
   const {platform} = globalSettings
 
   return (
-    <select className="input color-format-select" value={colorFormat} onChange={changeColorFormat}>
+    <FormConfigProvider config={{selectorBg: 'none'}}>
+      <Select value={colorFormat} onChange={changeColorFormat}>
       {(platform === 2 ? ANDROID_COLOR_FORMATS : COLOR_FORMATS).map((format, index) => (
-        <option key={index} value={index}>
+        <Option key={index} value={index}>
           {format}
-        </option>
+        </Option>
       ))}
-    </select>
+    </Select>
+    </FormConfigProvider>
+
   )
 }
 

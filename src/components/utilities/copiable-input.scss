@@ -4,19 +4,25 @@
 .copiable-input{
   display: flex;
   align-items: center;
-  background: #1C1F2A;
+  align-content: space-around;
+  background: #f5f6fa;
   border-radius: 2px;
   transition: background 0.2s;
+  // margin-bottom: 9px;
   &-quiet{
-    background: transparent;
+    // background: transparent;
     &:hover{
-      background: #1C1F2A;
+      background: #e6fafa;
+    }
+    &:active{
+      background: #b0eeee;
     }
   }
   .copiable-label{
     margin-left: 6px;
     line-height: 14px;
-    color: $white-36;
+    color: #a9abb4;
+    font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -26,6 +32,8 @@
   }
   >input{
     @include input-base;
+    color: #000311;
+    font-size: 12px;
     display: block;
     flex: 1;
     width: 100%;

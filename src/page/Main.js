@@ -1,7 +1,7 @@
 import React from 'react'
 import Canvas from './canvas'
 import LeftPanel from './left'
-import RightPanels from './right'
+import RightPanels from './right/index.jsx'
 import './main.scss'
 
 class Main extends React.Component {

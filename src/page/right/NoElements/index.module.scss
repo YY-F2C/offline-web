@@ -1,0 +1,22 @@
+.noElements {
+    display: flex;
+    height: 95vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .icon {
+        width: 109px;
+        height: 85px;
+    }
+    .noLayer {
+        color: #000;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .clickLayer {
+        padding-top: 4px;
+        color: #000;
+        font-size: 12px;
+        font-weight: 400;
+    }
+}

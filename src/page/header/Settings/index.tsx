@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {Select, Form, Checkbox} from 'antd';
 import { useGlobalContext } from 'contexts/GlobalContext';
 import MarkSettings from './Mark/index';
-import FormConfigProvider from 'contexts/FormContext';
+import FormConfigProvider from 'contexts/FormConfigProvider';
 import styles from './index.module.scss'
 
 const { Option } = Select;
@@ -14,14 +14,14 @@ const Settings = () => {
   const { t, i18n } = useTranslation('header');
   const { globalSettings, changeGlobalSetting } = useGlobalContext();
 
-  const changeLanguage = useCallback((e) => {
-    const { value } = e.target;
+  const changeLanguage = useCallback((value) => {
+    console.log(value, ' changeLanguage value');
     i18n.changeLanguage(value);
     changeGlobalSetting('language', value);
   }, [i18n, changeGlobalSetting]);
 
   const changeOtherSetting = useCallback((e) => {
-    const { checked, name } = e.target;
+    const {checked, name} = e.target
     changeGlobalSetting(name, checked);
   }, [changeGlobalSetting]);
 

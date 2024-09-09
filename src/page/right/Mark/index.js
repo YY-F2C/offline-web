@@ -10,7 +10,7 @@ import {formattedNumber, getCode, getEffectsStyle, getFillsStyle} from 'utils/st
 import {ColorFormatSelect, EffectItem, ExportItem, FillItem} from '../items'
 import FontPanel from './FontPanel'
 import StyleMeta from './StyleMeta'
-import StyleReference from './StyleReference'
+// import StyleReference from './StyleReference'
 import './index.scss'
 
 class RightProps extends React.Component {
@@ -81,6 +81,8 @@ class RightProps extends React.Component {
       t,
     } = this.props
     const {node} = elementData
+    console.log(elementData, 'mark 里面的elementData');
+    
     const {strokes, effects, styles: nodeStyles} = node
     const {fills, exportSettings, flag, isPieceSelected, textStyle} = this.state
     const {styles: fillItems} = getFillsStyle(fills)
@@ -95,20 +97,19 @@ class RightProps extends React.Component {
 
     return (
       <div
-        className={cn('right-props', `right-props-${propsPanelState}`)}
+        className={cn('right-props')}
         key={elementData.index}
         ref={this.propsSider}
-        onTransitionEnd={onPropsPanelTransitionEnd}
       >
         <div className="props-section">
-          <h5 className="section-title section-name" title={node.name}>
+          <div className="section-title section-name" title={node.name}>
             <span title= {node.id}>{node.name}</span>
-            <ColorFormatSelect />
-          </h5>
+            <ColorFormatSelect style={{width: 45}}/>
+          </div>
         </div>
         {/* position and size */}
         <div className="props-section props-basic">
-          <h5 className="section-title">{t('position and spacing')}</h5>
+          <div className="section-title">{t('position and spacing')}</div>
           <div className="section-items">
             <CopiableInput isQuiet label="X" value={formattedNumber(elementData.left, globalSettings)} />
             <CopiableInput isQuiet label="Y" value={formattedNumber(elementData.top, globalSettings)} />
@@ -122,30 +123,30 @@ class RightProps extends React.Component {
         </div>
         {!!elementData.maskedBound && (
           <div className="props-section">
-            <h5 className="section-title section-name">{t('masked element')}</h5>
+            <div className="section-title section-name">{t('masked element')}</div>
             <p className="section-helper">{t('masked element tip')}</p>
           </div>
         )}
         {node.isMask && (
           <div className="props-section">
-            <h5 className="section-title section-name">{t('mask')}</h5>
+            <div className="section-title section-name">{t('mask')}</div>
           </div>
         )}
         {node.type === 'GROUP' && (
           <div className="props-section">
-            <h5 className="section-title section-name">{t('group type')}</h5>
+            <div className="section-title section-name">{t('group type')}</div>
           </div>
         )}
         {node.type === 'SLICE' && (
           <div className="props-section">
-            <h5 className="section-title section-name">{t('slice type')}</h5>
+            <div className="section-title section-name">{t('slice type')}</div>
           </div>
         )}
         {closestComponent && (
           <div className="props-section props-component">
-            <h5 className="section-title section-name">
+            <div className="section-title section-name">
               {t('component')}: {closestComponent.name}
-            </h5>
+            </div>
             {closestComponent.description && <p className="section-helper">{closestComponent.description}</p>}
             {closestComponent.variantProperties && (
               <ul className="component-variants">
@@ -183,9 +184,9 @@ class RightProps extends React.Component {
         {/* fills */}
         {!!(fillItems && fillItems.length) && (
           <div className="props-section props-fills">
-            <h5 className="section-title">
+            <div className="section-title">
               <span className="title-name">{t('fill')}</span>
-              {!isPieceSelected && !fillMetaViaible && (
+              {/* {!isPieceSelected && !fillMetaViaible && (
                 <StyleReference
                   styleItems={fills}
                   styles={styles}
@@ -193,12 +194,12 @@ class RightProps extends React.Component {
                   type="fill"
                   onShowStyleDetail={this.handleStyleDetailShow}
                 />
-              )}
-            </h5>
+              )} */}
+            </div>
             {fillMetaViaible ? (
-              <StyleMeta nodeStyles={nodeStyles} type="fill" />
+              <StyleMeta nodeStyles={nodeStyles} type="fill"/>
             ) : (
-              <ul className="section-items">
+              <ul className="section-items" >
                 {fillItems.map((fillStyle, index) => (
                   <li className="item-block" key={index}>
                     <FillItem flag={flag} style={fillStyle} />
@@ -211,9 +212,9 @@ class RightProps extends React.Component {
         {/* strokes */}
         {!!(strokeItems && strokeItems.length) && (
           <div className="props-section props-strokes">
-            <h5 className="section-title">
+            <div className="section-title">
               <span className="title-name">{t('stroke')}</span>
-              {!strokeMetaViaible && (
+              {/* {!strokeMetaViaible && (
                 <StyleReference
                   styleItems={strokes}
                   styles={styles}
@@ -221,8 +222,8 @@ class RightProps extends React.Component {
                   type="stroke"
                   onShowStyleDetail={this.handleStyleDetailShow}
                 />
-              )}
-            </h5>
+              )} */}
+            </div>
             {strokeMetaViaible ? (
               <StyleMeta nodeStyles={nodeStyles} type="stroke" />
             ) : (
@@ -274,9 +275,9 @@ class RightProps extends React.Component {
         {/* effects */}
         {!!(effects && effects.length) && (
           <div className="props-section props-effects">
-            <h5 className="section-title">
+            <div className="section-title">
               <span className="title-name">{t('effect')}</span>
-              {!effectMetaViaible && (
+              {/* {!effectMetaViaible && (
                 <StyleReference
                   styleItems={effects}
                   styles={styles}
@@ -284,8 +285,8 @@ class RightProps extends React.Component {
                   type="effect"
                   onShowStyleDetail={this.handleStyleDetailShow}
                 />
-              )}
-            </h5>
+              )} */}
+            </div>
             {effectMetaViaible ? (
               <StyleMeta nodeStyles={nodeStyles} type="effect" />
             ) : (
@@ -301,7 +302,7 @@ class RightProps extends React.Component {
         )}
         {code && (
           <div className="props-section props-code">
-            <h5 className="section-title">{t('code')}</h5>
+            <div className="section-title">{t('code')}</div>
             <div className="section-items">
               <WithCopy text={code} className="code-copy">
                 <Copy size={14} />
@@ -315,9 +316,9 @@ class RightProps extends React.Component {
         {/* export settings */}
         {!!(exportSettings && exportSettings.length) && (
           <div className="props-section props-export">
-            <h5 className="section-title">
+            <div className="section-title">
               <span className="title-name">{t('exported images')}</span>
-            </h5>
+            </div>
             <ul className="section-items">
               {exportSettings.map((exportSetting, index) => (
                 <li key={index}>

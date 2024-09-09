@@ -4,7 +4,7 @@ import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React from 'react'
 import RightPanel from './Panel'
 import StyleDetail from './PanelDetail'
-import RightProps from './PanelProperties'
+import RightProps from './Mark'
 import './index.scss'
 
 class Right extends React.Component {

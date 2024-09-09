@@ -5,7 +5,7 @@
   transition: background 0.2s;
   cursor: pointer;
   &:hover{
-    background: #141723;
+    background: #e6fafa;
     >svg{
       opacity: 1;
     }
@@ -22,7 +22,7 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: #111421;
+    // background-color: #111421;
   }
   >span{
     flex: 1;

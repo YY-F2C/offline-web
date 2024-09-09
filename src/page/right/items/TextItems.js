@@ -3,7 +3,7 @@ import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React from 'react'
 import {withTranslation} from 'react-i18next'
 import {formattedNumber} from 'utils/style'
-import './text-items.scss'
+// import './text-items.scss'
 
 const TextItems = ({flag, items, globalSettings, t, i18n}) => {
   const labelWidth = i18n.language === 'en' ? 80 : 60
