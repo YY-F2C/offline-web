@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React from 'react'
-import {ChevronsLeft, ChevronsRight} from 'react-feather'
+import {ChevronLeft, ChevronRight} from 'react-feather'
 import {withTranslation} from 'react-i18next'
 import './collapse-button.scss'
 
@@ -22,14 +22,14 @@ const CollapseButton = ({placement = 'left', globalSettings, changeGlobalSetting
     >
       {collapsed ? (
         isLeft ? (
-          <ChevronsRight size={16} />
+          <ChevronRight size={16} />
         ) : (
-          <ChevronsLeft size={16} />
+          <ChevronLeft size={16} />
         )
       ) : isLeft ? (
-        <ChevronsLeft size={16} />
+        <ChevronLeft size={16} />
       ) : (
-        <ChevronsRight size={16} />
+        <ChevronRight size={16} />
       )}
     </button>
   )

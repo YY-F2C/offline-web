@@ -94,19 +94,24 @@
     padding: 0!important;
     overflow: hidden;
     .tooltip-quick-zoom{
-      background: #363945;
+      color: $black-title;
+      background: $baseBackgroundBg;
       >li{
         padding: 6px 12px;
         cursor: pointer;
         transition: 0.2s background;
         &:hover{
-          background: #222531;
+          background: $green;
+        }
+        &:active{
+          background: $green-1;
         }
       }
     }
     .tooltip-help{
       padding: 12px;
-      background: #363945;
+      color: $black-title;
+      background: $baseBackgroundBg;
       >li{
         margin-bottom: 6px;
         h3{
