@@ -6,6 +6,8 @@ import Header from 'page/header';
 
 import 'assets/base.scss';
 import './app.scss';
+import { reportData } from './api'
+import { useEffect } from 'react';
 
 const App = (props: any) => {
     const {FILE_DATA, PAGED_FRAMES, SETTINGS} = window
@@ -37,6 +39,10 @@ const App = (props: any) => {
     
     const [backFromDemo, setBackFromDemo] = useState(true)
     const [entryVisible, setEntryVisible] = useState(mode === 'local' ? false : isMock)
+
+    useEffect(() =>{
+        reportData(settings.handOffUser || '', settings.curPageName || '')
+    }, [settings])
     
     const handleDataGot = useCallback((fileData: any, components: any, styles: any, exportSettings: any, pagedFrames: any) => {
         setEntryVisible(false);
