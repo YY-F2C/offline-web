@@ -1,3 +1,8 @@
+@import 'assets/tokens.scss';
+
 .right {
-  overflow: auto;
+  .ant-tabs-content-holder {
+    height: calc(100vh - 114px);
+    overflow-y: auto;
+  }
 }

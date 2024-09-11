@@ -101,8 +101,8 @@ const Right = (props) => {
     <div className="right">
       <TabsConfigProvider>
       <Layout>
-        <Sider width="230px" style={{ backgroundColor: '#FFFFFF', overflowY: 'initial'}} trigger={null}>
-          <Tabs 
+        <Sider width="240px" style={{ backgroundColor: '#FFFFFF', overflowY: 'initial'}} trigger={null}>
+          <Tabs
               indicator={{ size: (origin) => origin - 20}} 
               centered 
               defaultActiveKey="1" 

@@ -1,6 +1,6 @@
 .noElements {
     display: flex;
-    height: 95vh;
+    height: calc(100vh - 114px);
     align-items: center;
     justify-content: center;
     flex-direction: column;
