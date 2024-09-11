@@ -318,10 +318,11 @@ function canvasWrapper(Canvas) {
               overlayClassName="canvas-tooltip"
               overlayStyle={{width: 96}}
               placement="top"
+              arrow={false}
               transitionName="rc-tooltip-slide"
               overlay={
                 <ul className="tooltip-quick-zoom">
-                  <li onClick={() => this.onStep(4, true)}>400%</li>
+                  <li onClick={() => this.onStep(4, true)}>400%</li> 
                   <li onClick={() => this.onStep(3, true)}>300%</li>
                   <li onClick={() => this.onStep(2, true)}>200%</li>
                   <li onClick={() => this.onStep(1, true)}>100%</li>
@@ -339,6 +340,7 @@ function canvasWrapper(Canvas) {
             overlayClassName="canvas-tooltip"
             overlayStyle={{width: 266}}
             placement="top"
+            showArrow={false}
             transitionName="rc-tooltip-slide"
             overlay={
               <ul className="tooltip-help">

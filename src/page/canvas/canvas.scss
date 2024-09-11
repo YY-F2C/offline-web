@@ -50,6 +50,7 @@
         border-style: dotted;
       }
       &.selected{
+        color: $baseBackgroundBg;
         border: 1px solid $primary-color;
         opacity: 1;
         &.has-exports{
