@@ -2,7 +2,7 @@
 
 .right {
   .ant-tabs-content-holder {
-    height: 100vh;
-    overflow: auto;
+    height: calc(100vh - 114px);
+    overflow-y: auto;
   }
 }

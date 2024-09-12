@@ -1,3 +1,4 @@
+@import 'assets/tokens.scss';
 .effect-item{
   position: relative;
   &-expanded{
@@ -21,7 +22,10 @@
     transition: background 0.2s;
     cursor: pointer;
     &:hover{
-      background: #1b1e2a;
+      background: $green;
+    }
+    &:active {
+      background: $green-1;
     }
     .summary-chevron{
       flex-shrink: 0;

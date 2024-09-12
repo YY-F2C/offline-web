@@ -1,6 +1,6 @@
 // get mock file data
 export const getMockFile = () =>
-  fetch(`${process.env.PUBLIC_URL}/data/linearFile.json`)
+  fetch(`${process.env.PUBLIC_URL}/data/file.json`)
     .then(response => response.json())
     .catch(error => {
       console.dir(error)

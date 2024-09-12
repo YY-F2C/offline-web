@@ -1,11 +1,14 @@
+@import "assets/tokens.scss";
+
 .mark-distance{
   position: absolute;
-  background: #2ca7fb;
+  color: $baseBackgroundBg;
+  background: $primary-color;
   &-sizing{
     position: absolute;
     padding: 0 6px;
     border-radius: 2px;
-    background: #2ca7fb;
+    background: $primary-color;
     font-size: 12px;
     pointer-events: none;
   }

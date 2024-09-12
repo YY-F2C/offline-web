@@ -9,10 +9,10 @@
   border-radius: 6px;
   @include input-base;
   &:focus{
-    border: 1px solid fade-out($green, 0.36);
+    border: 1px solid $green-1;
   }
   &:hover{
-    border: 1px solid fade-out($green-1, 0.36);
+    border: 1px solid $green;
   }
   &::placeholder{
     color: $gray-2;
@@ -34,6 +34,10 @@
       border-color: transparent;
     }
   }
+}
+
+.ant-input-outlined:focus-within {
+  border-color: transparent;
 }
 
 textarea.input{
