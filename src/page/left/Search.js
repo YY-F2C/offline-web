@@ -5,16 +5,16 @@ import {withTranslation} from 'react-i18next'
 import {Input} from 'antd';
 
 function Search({visible, value, onChange, onClear, t}) {
-  function resetInput() {
-    onClear()
-  }
+  // function resetInput() {
+  //   onClear()
+  // }
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
       onClear()
     }
   }
-
+  
   return (
     <div className={cn('list-filter', {hide: !visible})}>
       <Input
