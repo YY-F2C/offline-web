@@ -11,61 +11,74 @@ const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY];
 const { Option } = Select;
 
 const MarkSettings = () => {
+  const [form] = Form.useForm(); 
   const { t } = useTranslation('header');
   
   const { globalSettings, changeGlobalSetting } = useGlobalContext();
   
   const { platform, resolution, unit, remBase, numberFormat } = globalSettings;
-
-  const calculateResolution = (name, value) => {
+  const calculateResolution = (name: string, value: number) => {
     if (name === 'platform') {
+      form.setFieldsValue({
+        resolution: value === 2 ? 1 : 0
+      })
       return value === 2 ? 1 : 0;
     }
     if (name === 'unit' && (value === 3 || value === 4)) {
+      form.setFieldsValue({
+        resolution: 0
+      })
       return 0;
     }
     return resolution;
   };
 
-  const calculateUnit = (name, value) => {
+  const calculateUnit = (name: string, value: number) => {
+    const val = value > 2 ? value - 2 : value
     if (name === 'platform') {
-      return value === 0 ? 2 : value - 1;
+      form.setFieldsValue({
+        unit: value === 0 ? 2 : val - 1,
+      })
+      return value === 0 ? 2 : val - 1;
     }
     return unit;
   };
 
-  const handleChange = useCallback((value) => {
-    const {platform} = value;
-    
+  const handleChange = useCallback((changedValues, allValues) => {
+    // console.log(value, );
+    // const {name} = value;
     // const { name, value } = e.target;
-    // const changedSettings = {
-    //   [name]: +value,
-    // };
-    // if (name !== 'resolution') {
-    //   changedSettings.resolution = calculateResolution(name, +value);
-    // }
-    // if (name !== 'unit') {
-    //   changedSettings.unit = calculateUnit(name, +value);
-    // }
-    changeGlobalSetting(value);
-  },[]);
+    const [name, value] = Object.entries(changedValues)[0];
+    const changedSettings = {
+      [name]: +value,
+    };
+    
+    if (name !== 'resolution') {
+      changedSettings.resolution = calculateResolution(name, +value);
+    }
+    if (name !== 'unit') {
+      changedSettings.unit = calculateUnit(name, +value);
+    }
+    changeGlobalSetting({allValues, ...changedSettings});
+  },[globalSettings]);
 
   const handleRemBaseChange = useCallback(value => {
     changeGlobalSetting({ remBase: value });
   },[]);
 
-  // const baseVisible = platform === 0 && (unit === 3 || unit === 4);
+  const baseVisible = platform === 0 && (unit === 3 || unit === 4);
   const unitMaps = [
     [2, 3, 4, 5],
     [0, 2],
     [1, 2],
-  ]; // [Web, iOS, Android]
+  ]; // [Web, iOS, Android, Muzhi IOS, Muzhi Android]
 
   return (
     <>
       <div className={styles.settingTip}>{t('settings mark')}</div>
       <FormConfigProvider>
         <Form
+          form={form}
           colon={false}
           layout="horizontal"
           initialValues={{
@@ -82,7 +95,7 @@ const MarkSettings = () => {
                 getPopupContainer={triggerNode => triggerNode.parentNode} 
                 placeholder={t('platform placeholder')}
               >
-              {PLATFORMS.map((platform, index) => (
+              {PLATFORMS.map((platform: string, index: number) => (
                   <Option key={index} value={index}>
                       {platform}
                   </Option>
@@ -93,9 +106,9 @@ const MarkSettings = () => {
           <Form.Item label={platform === 0 ? t('multiple') : t('pixel density')} name="resolution">
               <Select
                 getPopupContainer={triggerNode => triggerNode.parentNode}
-                disabled={unit === 3 || unit === 4}
+                disabled={baseVisible}
               >
-                {resolutions[platform].map((resolution, index) => (
+                {resolutions[platform].map((resolution: string, index: number) => (
                     <Option key={index} value={index}>
                     {resolution.label}
                     </Option>
@@ -117,7 +130,7 @@ const MarkSettings = () => {
               </Select>
           </Form.Item>
 
-          {unit === 3 || unit === 4 ? (
+          {baseVisible ? (
               <Form.Item label={t('(r)em base')} name="remBase">
               <InputNumber
                 name="remBase"
@@ -133,7 +146,7 @@ const MarkSettings = () => {
            <div className={styles.settingTip}>{t('format')}</div>
           <Form.Item label={t('number format')} name="numberFormat">
               <Select getPopupContainer={triggerNode => triggerNode.parentNode}>
-              {NUMBER_FORMATS.map((format, index) => (
+              {NUMBER_FORMATS.map((format: string, index: number) => (
                   <Option key={index} value={index}>
                   {t(format)}
                   </Option>
