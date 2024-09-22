@@ -7,7 +7,7 @@ import FormConfigProvider from 'contexts/FormConfigProvider';
 import { ANDROID_DENSITY, IOS_DENSITY, NUMBER_FORMATS, PLATFORMS, UNITS, WEB_MULTIPLE } from 'utils/const';
 import styles from './index.module.scss';
 
-const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY];
+const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY, IOS_DENSITY, ANDROID_DENSITY]
 const { Option } = Select;
 
 const MarkSettings = () => {
@@ -18,11 +18,12 @@ const MarkSettings = () => {
   
   const { platform, resolution, unit, remBase, numberFormat } = globalSettings;
   const calculateResolution = (name: string, value: number) => {
+    
     if (name === 'platform') {
       form.setFieldsValue({
-        resolution: value === 2 ? 1 : 0
+        resolution: (value === 2 || value === 4) ? 1 : 0
       })
-      return value === 2 ? 1 : 0;
+      return (value === 2 || value === 4) ? 1 : 0
     }
     if (name === 'unit' && (value === 3 || value === 4)) {
       form.setFieldsValue({
@@ -69,6 +70,8 @@ const MarkSettings = () => {
   const baseVisible = platform === 0 && (unit === 3 || unit === 4);
   const unitMaps = [
     [2, 3, 4, 5],
+    [0, 2],
+    [1, 2],
     [0, 2],
     [1, 2],
   ]; // [Web, iOS, Android, Muzhi IOS, Muzhi Android]
