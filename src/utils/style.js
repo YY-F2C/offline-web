@@ -84,8 +84,6 @@ export const formattedColor = (color, globalSettings, type) => {
     let res = ""
     if(platform === 3) {
       res = MUZHI_COLOR_IOS[type][color[key]];
-      console.log(type, MUZHI_COLOR_IOS[type]);
-      
     }else if(platform === 4) {
       res = MUZHI_COLOR_Android[type][color[key]];
     }
@@ -448,19 +446,18 @@ export const getStyleById = (styles, nodeStyles, type = 'fill') => {
 }
 
 export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat, type}, withoutUnit = false) => {
+  // 映射百度健康字体编码
+  if(type === 'font-size' && (platform === 3 || platform === 4)) {
+    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[number] : MUZHI_FONT_SIZE_Android[number]
+    if(formatSizeCode) {
+      return formatSizeCode
+    }
+  }
   const scaledNumber = number * resolutions[platform][resolution].value
   const finalNumber = unit === 3 || unit === 4 ? number / remBase : scaledNumber
   const unitName = withoutUnit ? '' : UNITS[unit]
-  // 如果单位是px且是百度健康,就进行转换
   const size = toFixed(finalNumber, numberFormat) + unitName
-  if(type ==='font-size' && unit === 2 && (platform === 3 || platform === 4)) {
-    const formatSize = platform === 3 ? MUZHI_FONT_SIZE_IOS[size] : MUZHI_FONT_SIZE_Android[size]
-    console.log(formatSize);
-    
-    return formatSize ? formatSize : size
-  }else {
-    return size
-  }
+  return size;
   
 }
 

@@ -146,6 +146,7 @@ export const DEFAULT_SETTINGS = {
   notShowStyleProperties: false,
   leftCollapse: false,
   rightCollapse: false,
+  paddingFormat: false,
 }
 
 export const LOCALIZED_SETTING_KEYS = [
@@ -309,28 +310,85 @@ export const MUZHI_COLOR_IOS = {
 }
 
 export const MUZHI_FONT_SIZE_Android = {
-  '23px': 'TX1',
-  '21px': 'TX2',
-  '17px': 'TX3',
-  '16px': 'TX5',
-  '15px': 'TX6',
-  '14px': 'TX7',
-  '13px': 'TX8',
-  '12px': 'TX9',
-  '11px': 'TX10',
-  '10px': 'TX11'
+  '69': 'TX1',
+  '63': 'TX2',
+  '51': 'TX3',
+  '51': 'TX4',
+  '48': 'TX5',
+  '45': 'TX6',
+  '42': 'TX7',
+  '39': 'TX8',
+  '36': 'TX9',
+  '33': 'TX10',
+  '30': 'TX11'
 };
 
 export const MUZHI_FONT_SIZE_IOS = {
-  '27px': 'TX1',
-  '24px': 'TX2',
-  '20px': 'TX3',
-  '19px': 'TX4',
-  '18px': 'TX5',
-  '17px': 'TX6',
-  '16px': 'TX7',
-  '15px': 'TX8',
-  '14px': 'TX9',
-  '13px': 'TX10',
-  '12px': 'TX11'
+  '81': 'TX1',
+  '72': 'TX2',
+  '60': 'TX3',
+  '57': 'TX4',
+  '54': 'TX5',
+  '51': 'TX6',
+  '48': 'TX7',
+  '45': 'TX8',
+  '42': 'TX9',
+  '39': 'TX10',
+  '36': 'TX11'
 };
+
+export const MUZHI_PADDING_Android = {
+  '27': { top: 3, bottom: 2 },
+  '30': { top: 4, bottom: 3 },
+  '33': { top: 3, bottom: 2 },
+  '36': { top: 2, bottom: 3 },
+  '39': { top: 3, bottom: 4 },
+  '42': { top: 4, bottom: 3 },
+  '45': { top: 5, bottom: 4 },
+  '48': { top: 5, bottom: 5 },
+  '51': { top: 4, bottom: 5 },
+  '54': { top: 5, bottom: 4 },
+  '57': { top: 5, bottom: 5 },
+  '60': { top: 5, bottom: 6 },
+  '63': { top: 5, bottom: 5 },
+  '66': { top: 5, bottom: 5 },    
+  '69': { top: 6, bottom: 6 },  
+  '72': { top: 6, bottom: 6 },
+  '75': { top: 6, bottom: 7 },
+  '78': { top: 7, bottom: 7 },
+  '81': { top: 7, bottom: 7 },
+  '84': { top: 7, bottom: 8 },
+  '87': { top: 8, bottom: 8 },
+  '90': { top: 8, bottom: 8 }
+}
+
+export const MUZHI_PADDING_IOS = {
+  '24': { top: 2, bottom: 3 },
+  '27': { top: 3, bottom: 3 },
+  '30': { top: 3, bottom: 3 },
+  '33': { top: 3, bottom: 4 },
+  '36': { top: 3, bottom: 4 },
+  '39': { top: 3, bottom: 5 },
+  '42': { top: 4, bottom: 5 },
+  '45': { top: 4, bottom: 5 },
+  '48': { top: 5, bottom: 5 },
+  '51': { top: 5, bottom: 5 },
+  '54': { top: 5, bottom: 6 },
+  '57': { top: 5, bottom: 7 },
+  '60': { top: 5, bottom: 7 },
+  '63': { top: 6, bottom: 7 },
+  '66': { top: 6, bottom: 7 },
+  '69': { top: 7, bottom: 7 },
+  '72': { top: 7, bottom: 7 },
+  '75': { top: 6, bottom: 9 },
+  '78': { top: 7, bottom: 9 },
+  '81': { top: 7, bottom: 9 },
+  '84': { top: 8, bottom: 9 },
+  '87': { top: 8, bottom: 9 },
+  '90': { top: 7, bottom: 11 },
+  '93': { top: 8, bottom: 10 },
+  '96': { top: 9, bottom: 10 },
+  '99': { top: 10, bottom: 10 },
+  '102': { top: 11, bottom: 9 },
+  '105': { top: 12, bottom: 9 }
+}

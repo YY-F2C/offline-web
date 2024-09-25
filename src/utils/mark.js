@@ -1,3 +1,5 @@
+import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS } from "./const"
+
 // 0.32 -> 32%
 export const toPercentage = num => `${num * 100}%`
 
@@ -250,17 +252,24 @@ export const getFrameBounds = (strokes, strokeWeights, strokeAlign, effects) => 
 }
 
 // return: selected position, not intersect direction
-export const getPosition = (selected, target) => {
+export const getPosition = (selected, target, paddingSetting) => {
+  const {selectedFontSize , paddingFormat, platform, targetFontSize} = paddingSetting
+  const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize,targetFontSize,platform})
+  
   const position = {}
+  // selected在下方
   if (selected.top >= target.bottom) {
-    position.v = [selected.top - target.bottom, 1]
+    position.v = [selected.top - target.bottom - diff, 1]
   }
+  // selected在上方
   if (target.top >= selected.bottom) {
-    position.v = [target.top - selected.bottom, 0]
+    position.v = [target.top - selected.bottom - diff, 0]
   }
+  // selected在右边
   if (selected.left >= target.right) {
     position.h = [selected.left - target.right, 1]
   }
+  // selected在左边
   if (target.left >= selected.right) {
     position.h = [target.left - selected.right, 0]
   }
@@ -304,7 +313,44 @@ export const getMidIndex = (intersectNums, closerIndex) => {
   ]
 }
 
-export const getParallelSpacing = parallelNums => parallelNums[2] - parallelNums[1]
+export const calculatePaddingDiff = ({platform, paddingFormat, selected, target, selectedFontSize, targetFontSize}) => {
+  const selectedLineHeight = selected?.node?.style?.lineHeight
+  const targetLineHeight = target?.node?.style?.lineHeight
+  const hasSelectedPadding = selectedLineHeight === selectedFontSize
+  const hasTargetPadding = targetLineHeight === targetFontSize
+  let diff = 0;
+  // selected在下方
+  if (selected.top >= target.bottom && paddingFormat) {
+    if(platform === 1 || platform === 3) {
+      const diffTop = hasSelectedPadding ? MUZHI_PADDING_IOS[selectedFontSize]?.top || 0 : 0
+      const diffBottom = hasTargetPadding ? MUZHI_PADDING_IOS[targetFontSize]?.bottom || 0 : 0
+      diff = diffTop + diffBottom
+    }else if(platform === 2 || platform === 4) {
+      const diffTop = hasSelectedPadding ? MUZHI_PADDING_Android[selectedFontSize]?.top || 0 : 0
+      const diffBottom = hasTargetPadding ? MUZHI_PADDING_Android[targetFontSize]?.bottom || 0 : 0
+      diff = diffTop + diffBottom
+    }
+  }
+  // selected在上方，减bottom
+  if (target.top >= selected.bottom && paddingFormat) {
+    if(platform === 1 || platform === 3) {
+      const diffBottom = hasSelectedPadding ? MUZHI_PADDING_IOS[selectedFontSize]?.bottom || 0 : 0
+      const diffTop = hasTargetPadding ? MUZHI_PADDING_IOS[targetFontSize]?.top || 0 : 0
+      diff = diffBottom + diffTop
+    }else if(platform === 2 || platform === 4) {
+      const diffBottom = hasSelectedPadding ? MUZHI_PADDING_Android[selectedFontSize]?.bottom || 0 : 0
+      const diffTop = hasTargetPadding ? MUZHI_PADDING_Android[targetFontSize]?.top || 0 : 0
+      diff = diffBottom + diffTop
+    }
+  }
+  return diff;
+}
+// 弹簧转化器
+export const getParallelSpacing = (parallelNums, {selectedFontSize, selected, target,targetFontSize, paddingFormat, platform}) => {
+  const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize, targetFontSize,platform})
+  
+  return parallelNums[2] - parallelNums[1] - diff;
+}
 
 export const getMargin = (intersectNums, whichOne) =>
   intersectNums[whichOne === 'smaller' ? 1 : 3] - intersectNums[whichOne === 'smaller' ? 0 : 2]
@@ -321,7 +367,9 @@ export const isIntersect = (selectedRect, targetRect) => {
 }
 
 // calculate distance data
-export const calculateMarkData = (selected, target, pageRect) => {
+export const calculateMarkData = (selected, target, pageRect, paddingSetting) => {
+  const targetFontSize = target?.node?.style?.fontSize;
+  
   // has selected and not the the same
   if (selected && selected.index !== target.index) {
     const pw = pageRect.width
@@ -333,10 +381,13 @@ export const calculateMarkData = (selected, target, pageRect) => {
     const distanceData = [],
       rulerData = []
     // not intersect
+    
     if (!isIntersect(selected, target)) {
-      const position = getPosition(selected, target)
+      const {selectedFontSize , paddingFormat, platform} = paddingSetting
+      // const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize,targetFontSize,platform})
+      const position = getPosition(selected, target, {...paddingSetting, targetFontSize})
       if (position.v && position.h && position.v[0] > 0 && position.h[0] > 0) {
-        // not intersect in any direction
+           // 任何方向都没相交
         const spacingV = position.v[0]
         const spacingH = position.h[0]
         const selectedIsCloserV = position.v[1] === 0
@@ -396,6 +447,7 @@ export const calculateMarkData = (selected, target, pageRect) => {
           const direction = position.v[0] !== 0 ? 'v' : 'h'
           const nums = getNums(direction, verticalNums, horizontalNums)
           const orderedNums = getOrderedNums(nums)
+          
           distanceData.push({
             x: direction === 'v' ? orderedNums['intersect'][1] / pw : orderedNums['parallel'][1] / pw,
             y: direction === 'v' ? orderedNums['parallel'][1] / ph : orderedNums['intersect'][1] / ph,
@@ -411,7 +463,7 @@ export const calculateMarkData = (selected, target, pageRect) => {
         const orderedNums = getOrderedNums(nums)
         const mids = [getEverage(orderedNums['parallel'].slice(0, 2)), getEverage(orderedNums['parallel'].slice(2))]
         const midIndex = getMidIndex(nums['intersect'], closerIndex)
-        const parallelSpacing = getParallelSpacing(orderedNums['parallel'])
+        const parallelSpacing = getParallelSpacing(orderedNums['parallel'],{ selected, target, targetFontSize, ...paddingSetting})
         const margins = [getMargin(orderedNums['intersect'], 'smaller'), getMargin(orderedNums['intersect'])]
         if (parallelSpacing !== 0) {
           distanceData.push({
@@ -449,24 +501,56 @@ export const calculateMarkData = (selected, target, pageRect) => {
         })
       }
     } else {
+      // 包含关系
       const sortedVNumbers = getSortedNumbers(verticalNums)
       const sortedHNumbers = getSortedNumbers(horizontalNums)
       const x = getEverage(getMidNumbers(sortedHNumbers))
       const y = getEverage(getMidNumbers(sortedVNumbers))
+      const {platform, paddingFormat, selectedFontSize} = paddingSetting;
+      const selectedLineHeight = selected?.node?.style?.lineHeight
+      const targetLineHeight = target?.node?.style?.lineHeight
+      const hasSelectedPadding = selectedLineHeight === selectedFontSize
+      const hasTargetPadding = targetLineHeight === targetFontSize
       if (sortedVNumbers[1] - sortedVNumbers[0] !== 0) {
+        let diff = 0;
+        if(paddingFormat) {
+          if(platform === 1 || platform === 3) {
+            const diffTop = hasSelectedPadding ? MUZHI_PADDING_IOS[selectedFontSize]?.top || 0 : 0
+            const diffBottom = hasTargetPadding ? MUZHI_PADDING_IOS[targetFontSize]?.bottom || 0 : 0
+            diff = diffTop + diffBottom
+          }else if(platform === 2 || platform === 4) {
+            const diffTop = hasSelectedPadding ? MUZHI_PADDING_Android[selectedFontSize]?.top || 0 : 0
+            const diffBottom = hasTargetPadding ? MUZHI_PADDING_Android[targetFontSize]?.bottom || 0 : 0
+            diff = diffTop + diffBottom
+          }
+        }
         distanceData.push({
           x: x / pw,
           y: sortedVNumbers[0] / ph,
           h: (sortedVNumbers[1] - sortedVNumbers[0]) / ph,
-          distance: toFixed(sortedVNumbers[1] - sortedVNumbers[0]),
+          distance: toFixed(sortedVNumbers[1] - sortedVNumbers[0]- diff),
         })
       }
       if (sortedVNumbers[3] - sortedVNumbers[2] !== 0) {
+        const {platform, paddingFormat, selectedFontSize} = paddingSetting;
+        let diff = 0;
+        if(paddingFormat) {
+          if(platform === 1 || platform === 3) {
+            const diffBottom = hasSelectedPadding ? MUZHI_PADDING_IOS[selectedFontSize]?.bottom || 0 : 0
+            const diffTop = hasTargetPadding ? MUZHI_PADDING_IOS[targetFontSize]?.top || 0 : 0
+            diff = diffBottom + diffTop
+          }else if(platform === 2 || platform === 4) {
+            const diffBottom = hasSelectedPadding ? MUZHI_PADDING_Android[selectedFontSize]?.bottom || 0 : 0
+            const diffTop = hasTargetPadding ? MUZHI_PADDING_Android[targetFontSize]?.top || 0 : 0
+            diff = diffBottom + diffTop
+          }
+        }
+        
         distanceData.push({
           x: x / pw,
           y: sortedVNumbers[2] / ph,
           h: (sortedVNumbers[3] - sortedVNumbers[2]) / ph,
-          distance: toFixed(sortedVNumbers[3] - sortedVNumbers[2]),
+          distance: toFixed(sortedVNumbers[3] - sortedVNumbers[2]- diff),
         })
       }
       if (sortedHNumbers[1] - sortedHNumbers[0] !== 0) {
