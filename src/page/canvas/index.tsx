@@ -76,11 +76,10 @@ function Canvas(props: CanverProps){
   }
   // 改变选中后的高度和top值
   const getLayerBoundStyle = rect => {
-    // const targetFontSize = rect?.styles?.fontSize;
     let {top, left, width, height} = rect.maskedBound || rect 
     const {platform, paddingFormat} = globalSettings;
     
-    const selectedFontSize = elementData?.node?.style?.fontSize
+    const selectedFontSize = rect?.node?.style?.fontSize
     
     if(paddingFormat && selectedFontSize) {
       if((platform === 1 || platform === 3) && MUZHI_PADDING_IOS[selectedFontSize]) {
@@ -288,6 +287,7 @@ function Canvas(props: CanverProps){
           {rects.map((rect, index) => {
             const {clazz, isComponent} = rect
             const activeAndMaskedType = getActiveAndMaskedType(index)
+            
             const style = activeAndMaskedType
               ? getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
               : getLayerBoundStyle(rect)
