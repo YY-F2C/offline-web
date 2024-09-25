@@ -463,6 +463,7 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
         const orderedNums = getOrderedNums(nums)
         const mids = [getEverage(orderedNums['parallel'].slice(0, 2)), getEverage(orderedNums['parallel'].slice(2))]
         const midIndex = getMidIndex(nums['intersect'], closerIndex)
+        const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize, targetFontSize,platform})
         const parallelSpacing = getParallelSpacing(orderedNums['parallel'],{ selected, target, targetFontSize, ...paddingSetting})
         const margins = [getMargin(orderedNums['intersect'], 'smaller'), getMargin(orderedNums['intersect'])]
         if (parallelSpacing !== 0) {
@@ -473,7 +474,7 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
                 : orderedNums['parallel'][1] / pw,
             y:
               direction === 'v'
-                ? orderedNums['parallel'][1] / ph
+                ? (orderedNums['parallel'][1] + diff) / ph
                 : getEverage(orderedNums['intersect'].slice(1, 3)) / ph,
             [direction === 'v' ? 'h' : 'w']: parallelSpacing / (direction === 'v' ? ph : pw),
             distance: toFixed(parallelSpacing),
@@ -526,7 +527,7 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
         }
         distanceData.push({
           x: x / pw,
-          y: sortedVNumbers[0] / ph,
+          y: (sortedVNumbers[0])/ ph,
           h: (sortedVNumbers[1] - sortedVNumbers[0]) / ph,
           distance: toFixed(sortedVNumbers[1] - sortedVNumbers[0]- diff),
         })
@@ -548,7 +549,7 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
         
         distanceData.push({
           x: x / pw,
-          y: sortedVNumbers[2] / ph,
+          y: (sortedVNumbers[2])/ ph,
           h: (sortedVNumbers[3] - sortedVNumbers[2]) / ph,
           distance: toFixed(sortedVNumbers[3] - sortedVNumbers[2]- diff),
         })
