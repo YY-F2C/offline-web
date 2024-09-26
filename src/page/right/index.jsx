@@ -97,6 +97,28 @@ const Right = (props) => {
     : <NoElements />
   }, [elementData]);
 
+  const tabItems = [
+    {
+      key: '1',
+      label: '标注',
+      children:  buildMark
+    },
+    {
+      key: '2',
+      label: '切图',
+      children: <Slicing
+        mode={mode}
+        isMock={isMock}
+        styles={styles}
+        exportSettings={exportSettings}
+        documentName={documentName}
+        propsPanelState={propsPanelState}
+        onShowDetail={openStyleDetail}
+        versionData={versionData}
+      />
+    }
+  ]
+
   return (
     <div className="right">
       <TabsConfigProvider>
@@ -106,24 +128,9 @@ const Right = (props) => {
               indicator={{ size: (origin) => origin - 20}} 
               centered 
               defaultActiveKey="1" 
-              onChange={onChange} 
-            >
-              <TabPane tab="标注" key="1">
-                {buildMark}
-              </TabPane>
-              <TabPane tab="切图" key="2">
-                <Slicing
-                  mode={mode}
-                  isMock={isMock}
-                  styles={styles}
-                  exportSettings={exportSettings}
-                  documentName={documentName}
-                  propsPanelState={propsPanelState}
-                  onShowDetail={openStyleDetail}
-                  versionData={versionData}
-                />
-                </TabPane>
-          </Tabs>
+              onChange={onChange}
+              items={tabItems} 
+          />
         </Sider>
       </Layout>
       </TabsConfigProvider>
