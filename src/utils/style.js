@@ -9,8 +9,10 @@ import {
   WEB_MULTIPLE,
 } from 'utils/const'
 import {toFixed} from 'utils/mark'
+import { MUZHI_COLOR_Android, MUZHI_COLOR_IOS, MUZHI_FONT_SIZE_IOS, MUZHI_FONT_SIZE_Android } from './const'
 
-const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY]
+const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY, IOS_DENSITY, ANDROID_DENSITY]
+
 
 export const polyfillAlpha = alpha => (typeof alpha !== 'number' ? 1 : alpha)
 
@@ -74,11 +76,20 @@ export const getCSSHSLA = (color, opacity) => {
 
 export const getCSSAlpha = color => getColor(color).alpha()
 
-export const formattedColor = (color, globalSettings) => {
+export const formattedColor = (color, globalSettings, type) => {
   const {platform, colorFormat} = globalSettings
-  const formats = platform === 2 ? ANDROID_COLOR_FORMATS : COLOR_FORMATS
+  const formats = platform === 2 || platform === 4 ? ANDROID_COLOR_FORMATS : COLOR_FORMATS
   const key = formats[colorFormat].toLowerCase()
-  return color[key]
+  if(type) {
+    let res = ""
+    if(platform === 3) {
+      res = MUZHI_COLOR_IOS[type][color[key]];
+    }else if(platform === 4) {
+      res = MUZHI_COLOR_Android[type][color[key]];
+    }
+    return res ? res: color[key]
+  }
+  return color[key];
 }
 
 export const getPercentage = num => `${toFixed(num) === '' ? 100 : toFixed(num) * 100}%`
@@ -97,18 +108,18 @@ export const getStops = stops =>
   }))
 
 // default RGBA, use as inline css
-export const stopsToBackground = stops =>
-  stops.map(stop => formattedColor(stop, {colorFormat: 2}) + ' ' + stop.position).join(', ')
+export const stopsToBackground = (stops, type) =>
+  stops.map(stop => formattedColor(stop, {colorFormat: 2}, type) + ' ' + stop.position).join(', ')
 
 // use as dynamic template
-export const stopsToBackgroundWithFormat = (stops, globalSettings) => {
+export const stopsToBackgroundWithFormat = (stops, globalSettings, type) => {
   // 如果是 HEX，代码里仍需使用 HEXA
   const {colorFormat} = globalSettings
   const overridedSettings = {
     ...globalSettings,
     colorFormat: colorFormat || 1,
   }
-  return stops.map(stop => formattedColor(stop, overridedSettings) + ' ' + stop.position).join(', ')
+  return stops.map(stop => formattedColor(stop, overridedSettings, type) + ' ' + stop.position).join(', ')
 }
 
 export const getGradientDegreeFromMatrix = gradientTransform => {
@@ -154,7 +165,7 @@ export const getSolidColor = fill => ({
 
 export const getLinearGradient = fill => ({
   codeTemplate: 'linear-gradient({{degree}}, {{stops}})',
-  css: `linear-gradient(to bottom, ${stopsToBackground(getStops(fill.gradientStops))})`,
+  css: `linear-gradient(to bottom, ${stopsToBackground(getStops(fill.gradientStops), 'fill-color')})`,
   opacity: getOpacity(fill.opacity),
   type: 'Linear',
   stops: getStops(fill.gradientStops),
@@ -163,7 +174,7 @@ export const getLinearGradient = fill => ({
 
 export const getRadialGradient = fill => ({
   codeTemplate: 'radial-gradient(circle at 50% 50%, {{stops}})',
-  css: `radial-gradient(circle at 50% 50%, ${stopsToBackground(getStops(fill.gradientStops))})`,
+  css: `radial-gradient(circle at 50% 50%, ${stopsToBackground(getStops(fill.gradientStops), 'fill-color')})`,
   opacity: getOpacity(fill.opacity),
   type: 'Radial',
   stops: getStops(fill.gradientStops),
@@ -172,7 +183,7 @@ export const getRadialGradient = fill => ({
 
 export const getAngularGradient = fill => ({
   codeTemplate: 'conic-gradient(from {{degree}}, {{stops}})',
-  css: `conic-gradient(from 0.25turn, ${stopsToBackground(getStops(fill.gradientStops))})`,
+  css: `conic-gradient(from 0.25turn, ${stopsToBackground(getStops(fill.gradientStops), 'fill-color')})`,
   opacity: getOpacity(fill.opacity),
   type: 'Angular',
   stops: getStops(fill.gradientStops),
@@ -188,7 +199,7 @@ export const getDiamondCodeTemplate = () => {
 
 export const getDiamondGradient = fill => ({
   codeTemplate: getDiamondCodeTemplate(),
-  css: getDiamondCodeTemplate().replace(/{{stops}}/g, stopsToBackground(getStops(fill.gradientStops))),
+  css: getDiamondCodeTemplate().replace(/{{stops}}/g, stopsToBackground(getStops(fill.gradientStops), 'fill-color')),
   opacity: getOpacity(fill.opacity),
   type: 'Diamond',
   stops: getStops(fill.gradientStops),
@@ -223,7 +234,7 @@ export const getFillsStyle = fills => {
   return {type, styles}
 }
 
-export const getFillCSSCode = (fillStyle, globalSettings) => {
+export const getFillCSSCode = (fillStyle, globalSettings, type) => {
   const {codeTemplate, angle} = fillStyle
   // 如果是 HEX，代码里仍需使用 HEXA
   const {colorFormat} = globalSettings
@@ -231,7 +242,7 @@ export const getFillCSSCode = (fillStyle, globalSettings) => {
     ...globalSettings,
     colorFormat: colorFormat || 1,
   }
-  const color = formattedColor(fillStyle, overridedSettings)
+  const color = formattedColor(fillStyle, overridedSettings, type)
   let code = codeTemplate
   if (codeTemplate.indexOf('{{degree}}') > -1) {
     code = code.replace(/{{degree}}/g, `${angle.replace('°', '')}deg`)
@@ -240,7 +251,7 @@ export const getFillCSSCode = (fillStyle, globalSettings) => {
     code = code.replace(/{{color}}/g, color)
   }
   if (codeTemplate.indexOf('{{stops}}') > -1) {
-    code = code.replace(/{{stops}}/g, stopsToBackgroundWithFormat(fillStyle.stops, globalSettings))
+    code = code.replace(/{{stops}}/g, stopsToBackgroundWithFormat(fillStyle.stops, globalSettings, 'fill-color'))
   }
   return code
 }
@@ -327,7 +338,7 @@ export const getEffectCSSCode = (effectStyle, globalSettings) => {
     code = code.replace('{{x}}', formattedNumber(x, overridedSettings))
     code = code.replace('{{y}}', formattedNumber(y, overridedSettings))
     code = code.replace('{{spread}}', formattedNumber(spread, overridedSettings))
-    code = code.replace('{{color}}', formattedColor(effectStyle, overridedSettings))
+    code = code.replace('{{color}}', formattedColor(effectStyle, overridedSettings, 'fill-color'))
   }
   return code
 }
@@ -434,10 +445,20 @@ export const getStyleById = (styles, nodeStyles, type = 'fill') => {
   }
 }
 
-export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat}, withoutUnit = false) => {
+export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat, type}, withoutUnit = false) => {
+  // 映射百度健康字体编码
+  if(type === 'font-size' && (platform === 3 || platform === 4)) {
+    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[number] : MUZHI_FONT_SIZE_Android[number]
+    if(formatSizeCode) {
+      return formatSizeCode
+    }
+  }
   const scaledNumber = number * resolutions[platform][resolution].value
   const finalNumber = unit === 3 || unit === 4 ? number / remBase : scaledNumber
-  return toFixed(finalNumber, numberFormat) + (withoutUnit ? '' : UNITS[unit])
+  const unitName = withoutUnit ? '' : UNITS[unit]
+  const size = toFixed(finalNumber, numberFormat) + unitName
+  return size;
+  
 }
 
 function getBorderCSS(node, globalSettings, borderStyle, strokeColor) {
@@ -485,10 +506,10 @@ export const getCode = (node, fillItems, strokeItems, effectItems, textStyle, gl
         .filter(({type}) => type === 'Solid')
         // eslint-disable-next-line
         .map(fill => {
-          code += `color: ${getFillCSSCode(fill, globalSettings)};\n`
+          code += `color: ${getFillCSSCode(fill, globalSettings, 'font-color')};\n`
         })
     } else {
-      code += 'background: ' + fillItems.map(fill => getFillCSSCode(fill, globalSettings)).join() + ';\n'
+      code += 'background: ' + fillItems.map(fill => getFillCSSCode(fill, globalSettings, 'fill-color')).join() + ';\n'
     }
   }
 
@@ -499,7 +520,7 @@ export const getCode = (node, fillItems, strokeItems, effectItems, textStyle, gl
       .filter(({type}) => type === 'Solid')
       // eslint-disable-next-line
       .map(stroke => {
-        const strokeColor = getFillCSSCode(stroke, globalSettings)
+        const strokeColor = getFillCSSCode(stroke, globalSettings, 'border-color')
         code += getBorderCSS(node, globalSettings, borderStyle, strokeColor)
       })
   }
@@ -521,7 +542,7 @@ export const getCode = (node, fillItems, strokeItems, effectItems, textStyle, gl
       textStyle
     code += `font-family: ${fontFamily};\n`
     code += `font-weight: ${fontWeight};\n`
-    code += `font-size: ${formattedNumber(fontSize, globalSettings)};\n`
+    code += `font-size: ${formattedNumber(fontSize, {...globalSettings, type: 'font-size'})};\n`
     code += `line-height: ${lineHeightUnit === 'PIXELS' ? formattedNumber(lineHeight, globalSettings) : lineHeight};\n`
     code += `letter-spacing: ${formattedNumber(letterSpacing, globalSettings)};\n`
     code += `text-align: ${textAlign};\n`

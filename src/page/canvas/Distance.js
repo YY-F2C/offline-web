@@ -3,13 +3,14 @@ import {toMarkPercentage, toPercentage} from 'utils/mark'
 import {formattedNumber} from 'utils/style'
 import './distance.scss'
 
-const Distance = ({distanceData, globalSettings, percentageMode, pageRect, closedCommonParent}) =>
-  distanceData && distanceData.length ? (
+const Distance = ({distanceData, globalSettings, percentageMode, pageRect, closedCommonParent}) => {
+  return distanceData && distanceData.length ? (
     <Fragment>
       {distanceData.map((distance, index) => {
         const isVertical = !!distance.h
         const size = isVertical ? {height: toPercentage(distance.h)} : {width: toPercentage(distance.w)}
         const whichSide = isVertical ? 'height' : 'width'
+        // todo distance top需细微调整
         return (
           <div
             key={index}
@@ -32,5 +33,6 @@ const Distance = ({distanceData, globalSettings, percentageMode, pageRect, close
       })}
     </Fragment>
   ) : null
+}
 
 export default Distance

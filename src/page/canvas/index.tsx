@@ -11,6 +11,7 @@ import './canvas.scss'
 import canvasWrapper from './canvasWrapper'
 import useBearStore from '../../store'
 import { IPageRect, IRectNode } from '../../types'
+import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS } from 'src/utils/const'
 
 export interface CanverProps{
   currentImageUrl:string
@@ -73,8 +74,23 @@ function Canvas(props: CanverProps){
     }
     return frameStyle
   }
+  // 改变选中后的高度和top值
   const getLayerBoundStyle = rect => {
-    const {top, left, width, height} = rect.maskedBound || rect
+    let {top, left, width, height} = rect.maskedBound || rect 
+    const {platform, paddingFormat} = globalSettings;
+    
+    const selectedFontSize = rect?.node?.style?.fontSize
+    
+    if(paddingFormat && selectedFontSize) {
+      if((platform === 1 || platform === 3) && MUZHI_PADDING_IOS[selectedFontSize]) {
+        top -= (MUZHI_PADDING_IOS[selectedFontSize].top || 0)
+        height += (MUZHI_PADDING_IOS[selectedFontSize].top + MUZHI_PADDING_IOS[selectedFontSize].bottom)
+      }else if((platform === 2 || platform === 4) && MUZHI_PADDING_Android[selectedFontSize]) {
+        top -= (MUZHI_PADDING_Android[selectedFontSize].top || 0)
+        height += (MUZHI_PADDING_Android[selectedFontSize].top + MUZHI_PADDING_Android[selectedFontSize].bottom)
+      }
+    }
+    
     return {
       top: toPercentage(top / pageRect.height),
       left: toPercentage(left / pageRect.width),
@@ -188,7 +204,10 @@ function Canvas(props: CanverProps){
       setClosestComponent(closestComponent)
   }
   const onHover = (rect, index) => {
-    const markData = calculateMarkData(selectedRect, rect, pageRect)
+    const {platform, paddingFormat} = globalSettings
+    const selectedFontSize = elementData?.node?.style?.fontSize || 0;
+    
+    const markData = calculateMarkData(selectedRect, rect, pageRect, {platform, paddingFormat, selectedFontSize})
     const {closedCommonParentPath, closedCommonParent} = getClosedCommonParent(rect, selectedRect)
       setHoveredRect(rect)
       setHoveredIndex(index)
@@ -220,7 +239,6 @@ function Canvas(props: CanverProps){
     const sub = useBearStore.subscribe((state, prevState) => {
       const index = rects.findIndex(rect => rect.id == state.selectedNodeId)
       if(index > -1) {
-        console.log('change selectedIndex from slick', state.selectedNodeId)
         onSelect(rects[index], index)
       }
     })
@@ -251,6 +269,7 @@ function Canvas(props: CanverProps){
   
     const {disableInspectInComponent} = globalSettings
     const frameStyle = getBound()
+    const selectedFontSize = elementData?.node?.style?.fontSize || 0;
     return (
       <div className="container-mark" onMouseLeave={onLeave}>
         <div
@@ -268,6 +287,7 @@ function Canvas(props: CanverProps){
           {rects.map((rect, index) => {
             const {clazz, isComponent} = rect
             const activeAndMaskedType = getActiveAndMaskedType(index)
+            
             const style = activeAndMaskedType
               ? getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
               : getLayerBoundStyle(rect)
@@ -297,6 +317,7 @@ function Canvas(props: CanverProps){
                 )}
                 {['width', 'height'].map(whichSide => (
                   <Dimension
+                    selectedFontSize={selectedFontSize}
                     key={whichSide}
                     whichSide={whichSide}
                     actualSize={whichSide === 'width' ? rect.actualWidth : rect.actualHeight}
