@@ -22,8 +22,8 @@ const Dimension = ({whichSide, actualSize, percentageMode, closedCommonParent, p
     <div className={`layer-sizing layer-${whichSide}`}>
       {!!percentageMode && closedCommonParent
         ? percentageMode === 'auto'
-          ? toMarkPercentage(actualSize + diffSize / closedCommonParent[whichSide])
-          : toMarkPercentage(actualSize + diffSize / pageRect[whichSide])
+          ? toMarkPercentage((actualSize + diffSize) / closedCommonParent[whichSide])
+          : toMarkPercentage((actualSize + diffSize) / pageRect[whichSide])
         : formattedNumber(actualSize + diffSize, globalSettings)}
     </div>
   )
