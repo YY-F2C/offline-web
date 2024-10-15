@@ -3,7 +3,7 @@
 .mark-distance{
   position: absolute;
   color: $baseBackgroundBg;
-  background: $primary-color;
+  background: #00B6B6;
   &-sizing{
     position: absolute;
     padding: 0 6px;
@@ -15,6 +15,10 @@
   &-v{
     width: 1px;
     .mark-distance-sizing{
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 6px;
       position: absolute;
       top: 50%;
       left: 3px;
@@ -24,6 +28,10 @@
   &-h{
     height: 1px;
     .mark-distance-sizing{
+      border-radius: 16px;
+      font-size: 12px;
+      padding: 4px 6px;
+      font-weight: 500;
       position: absolute;
       bottom: 3px;
       left: 50%;

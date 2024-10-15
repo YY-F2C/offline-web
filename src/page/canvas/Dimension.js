@@ -1,10 +1,11 @@
+import { Button } from 'antd'
 import {withGlobalContextConsumer} from 'contexts/GlobalContext'
 import React, { useCallback, useMemo } from 'react'
 import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS } from 'src/utils/const'
 import {toMarkPercentage} from 'utils/mark'
 import {formattedNumber} from 'utils/style'
 
-const Dimension = ({whichSide, actualSize, percentageMode, closedCommonParent, pageRect, globalSettings, selectedFontSize}) => {
+const Dimension = ({whichSide, actualSize, percentageMode, closedCommonParent, pageRect, globalSettings, selectedFontSize, isShow = false}) => {
   const diffSize = useMemo(() => {
     let diff = 0;
     const {platform, paddingFormat} = globalSettings;
@@ -19,13 +20,14 @@ const Dimension = ({whichSide, actualSize, percentageMode, closedCommonParent, p
   },[globalSettings, selectedFontSize])
 
   return (
+    isShow?
     <div className={`layer-sizing layer-${whichSide}`}>
       {!!percentageMode && closedCommonParent
         ? percentageMode === 'auto'
           ? toMarkPercentage((actualSize + diffSize) / closedCommonParent[whichSide])
           : toMarkPercentage((actualSize + diffSize) / pageRect[whichSide])
         : formattedNumber(actualSize + diffSize, globalSettings)}
-    </div>
+    </div> : null
   )
 }
 export default withGlobalContextConsumer(Dimension)

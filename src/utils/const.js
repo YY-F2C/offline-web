@@ -86,11 +86,11 @@ export const IOS_DENSITY = [
   },
   {
     label: '@2x',
-    value: 1 / 2,
+    value: 2,
   },
   {
     label: '@3x',
-    value: 1 / 3,
+    value: 3,
   },
 ]
 
@@ -256,7 +256,6 @@ export const MUZHI_COLOR_IOS = {
       '#F0F0F0': 'GC17',
       '#E0E0E0': 'GC19',
       '#F5F5F5': 'GC20',
-      '#FFFFFFB2': 'GC21',
       '#00BCBC': 'GC26',
   },
   // 填充色
@@ -279,7 +278,6 @@ export const MUZHI_COLOR_IOS = {
     '#F0F0F0': 'GC17',
     '#FFFFFF': 'GC18',
     '#E0E0E0': 'GC19',
-    '#FFFFFFB2': 'GC21', // 特别处理透明度70%
     '#F8F8F8': 'GC22',
     '#EEFFFF': 'GC23',
     '#FFF0EF': 'GC24',
@@ -305,7 +303,6 @@ export const MUZHI_COLOR_IOS = {
     '#FFFFFF': 'GC18',
     '#E0E0E0': 'GC19',
     '#F5F5F5': 'GC20',
-    '#FFFFFFB2': 'GC21',
   },
 }
 

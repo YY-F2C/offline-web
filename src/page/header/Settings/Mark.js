@@ -84,7 +84,8 @@ class MarkSettings extends Component {
         </div>
         <div className="form-item form-item-horizontal">
           <label htmlFor="resolution" className="item-label">
-            {platform === 0 ? t('multiple') : t('pixel density')}
+          { t('multiple') }
+            {/* {platform === 0 ? t('multiple') : t('pixel density')} */}
           </label>
           <select
             name="resolution"
