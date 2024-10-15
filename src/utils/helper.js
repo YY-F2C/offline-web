@@ -11,7 +11,7 @@ export const throttle = (fn, delay) => {
   }
 }
 
-export const isCmdOrCtrl = e => (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
+export const isOptionOrCtrl = e => (navigator.platform.match('Mac') ? e.altKey : e.ctrlKey)
 
 export const getStyleItems = (node, key) => (key === 'backgrounds' ? node.fills : node[key])
 
