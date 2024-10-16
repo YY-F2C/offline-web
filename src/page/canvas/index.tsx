@@ -349,6 +349,10 @@ function Canvas(props: CanverProps){
                     isShow={isDimensionShow()}
                   />
                 ))}
+                <div className="anchor-top-left"></div>
+                <div className="anchor-top-right"></div>
+                <div className="anchor-bottom-left"></div>
+                <div className="anchor-bottom-right"></div>
               </div>
             )
           })}
