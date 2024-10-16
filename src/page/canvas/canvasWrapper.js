@@ -3,7 +3,7 @@ import Tooltip from 'rc-tooltip'
 import React, {createRef} from 'react'
 import {HelpCircle, Minus, Plus} from 'react-feather'
 import {withTranslation} from 'react-i18next'
-import {copySomething, isCmdOrCtrl, throttle} from 'utils/helper'
+import {copySomething, isOptionOrCtrl, throttle} from 'utils/helper'
 import {getFrameBounds, px2number, toFixed} from 'utils/mark'
 import './canvas-wrapper.scss'
 
@@ -132,13 +132,13 @@ function canvasWrapper(Canvas) {
       const {onDeselect} = this.props
       window.onkeydown = e => {
         // show percentage distances and spaces
-        if (isCmdOrCtrl(e)) {
+        if (isOptionOrCtrl(e)) {
           this.setState({percentageMode: 'root'})
         } else if (e.altKey) {
           this.setState({percentageMode: 'auto'})
         }
         // when (Cmd/Ctrl \) pressed, siders collapsed
-        if (e.keyCode === 220 && isCmdOrCtrl(e)) {
+        if (e.keyCode === 220 && isOptionOrCtrl(e)) {
           e.preventDefault()
           const {globalSettings, changeGlobalSetting} = this.props
           const {leftCollapse, rightCollapse} = globalSettings
@@ -154,7 +154,7 @@ function canvasWrapper(Canvas) {
           this.setState({spacePressed: true})
         }
         // when (Cmd/Ctrl +) or (Cmd/Ctrl -) pressed
-        if ((e.keyCode === 187 || e.keyCode === 189) && isCmdOrCtrl(e)) {
+        if ((e.keyCode === 187 || e.keyCode === 189) && isOptionOrCtrl(e)) {
           e.preventDefault()
           this.onStep(e.keyCode === 187 ? 1 : -1)
         }
@@ -163,7 +163,7 @@ function canvasWrapper(Canvas) {
           onDeselect && onDeselect()
         }
         // when Cmd/Ctrl + C pressed
-        if (e.keyCode === 67 && isCmdOrCtrl(e)) {
+        if (e.keyCode === 67 && isOptionOrCtrl(e)) {
           const {elementData} = this.props
           if (elementData) {
             const {node} = elementData
@@ -175,7 +175,7 @@ function canvasWrapper(Canvas) {
       }
       window.onkeyup = e => {
         // exit percentage mode
-        if (isCmdOrCtrl(e)) {
+        if (isOptionOrCtrl(e)) {
           this.setState({percentageMode: 'root'})
         } else if (e.altKey) {
           this.setState({percentageMode: 'auto'})

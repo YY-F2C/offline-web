@@ -11,8 +11,10 @@ import './canvas.scss'
 import canvasWrapper from './canvasWrapper'
 import useBearStore from '../../store'
 import { IPageRect, IRectNode } from '../../types'
-import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS } from 'src/utils/const'
+import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS,WEB_MULTIPLE } from 'src/utils/const'
+import { Button, Form } from 'antd'
 
+const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE]
 export interface CanverProps{
   currentImageUrl:string
   canvasData: any
@@ -77,9 +79,9 @@ function Canvas(props: CanverProps){
   // 改变选中后的高度和top值
   const getLayerBoundStyle = rect => {
     let {top, left, width, height} = rect.maskedBound || rect 
-    const {platform, paddingFormat} = globalSettings;
+    const {platform, paddingFormat, resolution} = globalSettings;
     
-    const selectedFontSize = rect?.node?.style?.fontSize
+    const selectedFontSize = rect?.node?.style?.fontSize * resolutions[platform][resolution].value
     
     if(paddingFormat && selectedFontSize) {
       if((platform === 1 || platform === 3) && MUZHI_PADDING_IOS[selectedFontSize]) {
@@ -204,8 +206,8 @@ function Canvas(props: CanverProps){
       setClosestComponent(closestComponent)
   }
   const onHover = (rect, index) => {
-    const {platform, paddingFormat} = globalSettings
-    const selectedFontSize = elementData?.node?.style?.fontSize || 0;
+    const {platform, paddingFormat, resolution} = globalSettings
+    const selectedFontSize = (elementData?.node?.style?.fontSize || 0) * resolutions[platform][resolution].value;
     
     const markData = calculateMarkData(selectedRect, rect, pageRect, {platform, paddingFormat, selectedFontSize})
     const {closedCommonParentPath, closedCommonParent} = getClosedCommonParent(rect, selectedRect)
@@ -267,9 +269,29 @@ function Canvas(props: CanverProps){
     generateMark();
   }, [globalSettings.disableInspectInComponent, globalSettings.disableInspectExportInner]);
   
-    const {disableInspectInComponent} = globalSettings
+    const {disableInspectInComponent, platform, resolution} = globalSettings
     const frameStyle = getBound()
-    const selectedFontSize = elementData?.node?.style?.fontSize || 0;
+    const selectedFontSize = (elementData?.node?.style?.fontSize || 0) * resolutions[platform][resolution].value;
+
+    // 选中不需要hover直接展示尺寸
+    const isDimensionShow = () => {
+      let isShow = false;
+      if(!selectedIndex && hoveredIndex){
+        isShow = false;
+      }else if(selectedIndex === 0 && !hoveredIndex){
+        isShow = true;
+      }else if( selectedIndex && hoveredIndex === 0 ){
+        isShow = false;
+      }else if(selectedIndex && !hoveredIndex){
+        isShow = true;
+      }else if(selectedIndex && hoveredIndex && selectedIndex !== hoveredIndex){
+        isShow = false;
+      }else if(selectedIndex && hoveredIndex && selectedIndex === hoveredIndex){
+        isShow = true;
+      }
+      return isShow;
+    }
+
     return (
       <div className="container-mark" onMouseLeave={onLeave}>
         <div
@@ -287,7 +309,7 @@ function Canvas(props: CanverProps){
           {rects.map((rect, index) => {
             const {clazz, isComponent} = rect
             const activeAndMaskedType = getActiveAndMaskedType(index)
-            
+
             const style = activeAndMaskedType
               ? getMaskedLayerHoveredBoundStyle(activeAndMaskedType)
               : getLayerBoundStyle(rect)
@@ -296,7 +318,7 @@ function Canvas(props: CanverProps){
                 key={index}
                 className={cn('layer', ...clazz, {
                   selected: selectedIndex === index,
-                  hovered: hoveredIndex === index,
+                  hovered: hoveredIndex === index && hoveredIndex !== selectedIndex,
                   'closest-component': closestComponentIndex === index,
                   'component-inspect-disabled': disableInspectInComponent && isComponent,
                   'custom-inspect-disabled': customInspectDisabledClass(rect.node),
@@ -324,6 +346,7 @@ function Canvas(props: CanverProps){
                     percentageMode={percentageMode}
                     closedCommonParent={closedCommonParent}
                     pageRect={pageRect}
+                    isShow={isDimensionShow()}
                   />
                 ))}
               </div>

@@ -7,7 +7,7 @@ import FormConfigProvider from 'contexts/FormConfigProvider';
 import { ANDROID_DENSITY, IOS_DENSITY, NUMBER_FORMATS, PLATFORMS, UNITS, WEB_MULTIPLE } from 'utils/const';
 import styles from './index.module.scss';
 
-const resolutions = [WEB_MULTIPLE, IOS_DENSITY, ANDROID_DENSITY, IOS_DENSITY, ANDROID_DENSITY]
+const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE]
 const { Option } = Select;
 
 const MarkSettings = () => {
@@ -21,9 +21,9 @@ const MarkSettings = () => {
     
     if (name === 'platform') {
       form.setFieldsValue({
-        resolution: (value === 2 || value === 4) ? 1 : 0
+        resolution: 0
       })
-      return (value === 2 || value === 4) ? 1 : 0
+      return 0
     }
     if (name === 'unit' && (value === 3 || value === 4)) {
       form.setFieldsValue({
@@ -94,7 +94,7 @@ const MarkSettings = () => {
           onValuesChange={handleChange}
           >
           <Form.Item label={t('settings platform')} name="platform">
-              <Select 
+              <Select
                 getPopupContainer={triggerNode => triggerNode.parentNode} 
                 placeholder={t('platform placeholder')}
               >
@@ -106,14 +106,14 @@ const MarkSettings = () => {
               </Select>
           </Form.Item>
 
-          <Form.Item label={platform === 0 ? t('multiple') : t('pixel density')} name="resolution">
+          <Form.Item label={t('multiple')} name="resolution">
               <Select
                 getPopupContainer={triggerNode => triggerNode.parentNode}
                 disabled={baseVisible}
               >
-                {resolutions[platform].map((resolution: string, index: number) => (
+                {WEB_MULTIPLE.map((resolution: string, index: number) => (
                     <Option key={index} value={index}>
-                    {resolution.label}
+                      {resolution.label}
                     </Option>
                 ))}
               </Select>
