@@ -9,6 +9,35 @@ import './app.scss';
 import { reportData } from './api'
 import { useEffect } from 'react';
 
+
+ function sortFrame(pagedFrames, data) {
+    if(!Array.isArray(pagedFrames)) {
+        Object.keys(pagedFrames).map(pageId => {
+            const pageNode =  data.document.children.find(({id}) => id === pageId)
+            if(pageNode){
+                const frames:{id: string, name:string, x: number, y: number}[] = pagedFrames[pageId].frames
+                frames.forEach(frame =>{
+                    const canvasData = pageNode.children.find(({id}) => id === frame.id)
+                    console.log('find frame info', canvasData.name, canvasData)
+                    frame.x = canvasData.absoluteBoundingBox.x
+                    frame.y = canvasData.absoluteBoundingBox.y
+                })
+
+                frames.sort((a, b) =>{
+                    if(a.y == b.y) {
+                        return a.x < b.x ? -1:  1
+                    } else {
+                        return a.y < b.y ? -1:  1
+                    }
+                })
+            }
+           
+        })
+    }
+
+    return pagedFrames
+ }
+
 const App = (props: any) => {
     const {FILE_DATA, PAGED_FRAMES, SETTINGS} = window
     const mode = FILE_DATA ? 'local' : 'online'
@@ -28,11 +57,16 @@ const App = (props: any) => {
     const initData = FILE_DATA || fileData || {};
     const settings = SETTINGS || settingsOfProps || {};
     const initPagedFrames = PAGED_FRAMES || pagedFramesOfProps || {};
+    const sortedFrame =  useMemo(() =>{
+       return sortFrame(initPagedFrames, initData)
+    }, [initPagedFrames, initData])
+
+
 
     const [names, setNames] = useState({})
     const [data, setData] = useState(initData);
     const [styles, setStyles] = useState(initData.styles || {});
-    const [pagedFrames, setPagedFrames] = useState(initPagedFrames);
+    const [pagedFrames, setPagedFrames] = useState(sortedFrame);
     const [components, setComponents] = useState(initData.components || []);
     const [exportSettings, setExportSettings] = useState(initData.exportSettings || exportSettingsOfProps || []);
     const [includeComponents, setIncludeComponents] = useState(mode !== 'local' && isMock ? true : !!settings.includeComponents)
@@ -47,9 +81,13 @@ const App = (props: any) => {
     const handleDataGot = useCallback((fileData: any, components: any, styles: any, exportSettings: any, pagedFrames: any) => {
         setEntryVisible(false);
         
+        console.log('pagedFrames', pagedFrames)
+        console.log('fileData', fileData)
+        sortFrame(pagedFrames, fileData)
+
         setData(fileData);
         setStyles(styles);
-        setPagedFrames(pagedFrames);
+        setPagedFrames(sortFrame(pagedFrames, fileData));
 
         setComponents(components);
         setExportSettings(exportSettings);
