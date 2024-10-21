@@ -26,7 +26,7 @@ const Distance = ({distanceData, globalSettings, percentageMode, pageRect, close
                 ? percentageMode === 'auto'
                   ? toMarkPercentage(distance.distance / closedCommonParent[whichSide])
                   : toMarkPercentage(distance.distance / pageRect[whichSide])
-                : formattedNumber(distance.distance, globalSettings)}
+                : formattedNumber(distance.distance, {...globalSettings, diffSize: distance.diff})}
             </div>
           </div>
         )

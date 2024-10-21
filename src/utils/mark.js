@@ -314,10 +314,16 @@ export const getMidIndex = (intersectNums, closerIndex) => {
 }
 
 export const calculatePaddingDiff = ({platform, paddingFormat, selected, target, selectedFontSize, targetFontSize}) => {
+  // Todo: 判断计算字padding
   const selectedLineHeight = selected?.node?.style?.lineHeight
   const targetLineHeight = target?.node?.style?.lineHeight
-  const hasSelectedPadding = selectedLineHeight === selectedFontSize
-  const hasTargetPadding = targetLineHeight === targetFontSize
+
+  const hasSelectedPadding = true;
+  const hasTargetPadding = true;
+
+  const selectedFontSizeAndroid = Math.round(selectedFontSize * 1080 / 1242);
+  const targetFontSizeAndroid = Math.round(targetFontSize * 1080 / 1242);
+  
   let diff = 0;
   // selected在下方
   if (selected.top >= target.bottom && paddingFormat) {
@@ -349,7 +355,7 @@ export const calculatePaddingDiff = ({platform, paddingFormat, selected, target,
 export const getParallelSpacing = (parallelNums, {selectedFontSize, selected, target,targetFontSize, paddingFormat, platform}) => {
   const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize, targetFontSize,platform})
   
-  return parallelNums[2] - parallelNums[1] - diff;
+  return {parallelDistance: parallelNums[2] - parallelNums[1] ,parallelDiff: diff};
 }
 
 export const getMargin = (intersectNums, whichOne) =>
@@ -368,8 +374,11 @@ export const isIntersect = (selectedRect, targetRect) => {
 
 // calculate distance data
 export const calculateMarkData = (selected, target, pageRect, paddingSetting) => {
-  const targetFontSize = target?.node?.style?.fontSize;
   
+  const { targetFontSize = 0, selectedFontSize = 0 } = paddingSetting;
+  const selectedFontSizeAndroid = Math.round(selectedFontSize * 1080 / 1242);
+  const targetFontSizeAndroid = Math.round(targetFontSize * 1080 / 1242);
+
   // has selected and not the the same
   if (selected && selected.index !== target.index) {
     const pw = pageRect.width
@@ -463,10 +472,10 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
         const orderedNums = getOrderedNums(nums)
         const mids = [getEverage(orderedNums['parallel'].slice(0, 2)), getEverage(orderedNums['parallel'].slice(2))]
         const midIndex = getMidIndex(nums['intersect'], closerIndex)
-        const diff = calculatePaddingDiff({paddingFormat, selected, target,selectedFontSize, targetFontSize,platform})
-        const parallelSpacing = getParallelSpacing(orderedNums['parallel'],{ selected, target, targetFontSize, ...paddingSetting})
+        const diff = calculatePaddingDiff({paddingFormat, selected, target, selectedFontSize, targetFontSize,platform})
+        const {parallelDistance, parallelDiff} = getParallelSpacing(orderedNums['parallel'],{ selected, target, targetFontSize, ...paddingSetting})
         const margins = [getMargin(orderedNums['intersect'], 'smaller'), getMargin(orderedNums['intersect'])]
-        if (parallelSpacing !== 0) {
+        if (parallelDistance !== 0) {
           distanceData.push({
             x:
               direction === 'v'
@@ -474,10 +483,11 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
                 : orderedNums['parallel'][1] / pw,
             y:
               direction === 'v'
-                ? (orderedNums['parallel'][1] + diff) / ph
+                ? (orderedNums['parallel'][1]) / ph
                 : getEverage(orderedNums['intersect'].slice(1, 3)) / ph,
-            [direction === 'v' ? 'h' : 'w']: parallelSpacing / (direction === 'v' ? ph : pw),
-            distance: toFixed(parallelSpacing),
+            [direction === 'v' ? 'h' : 'w']: parallelDistance / (direction === 'v' ? ph : pw),
+            distance: toFixed(parallelDistance),
+            diff: -parallelDiff,
           })
         }
         margins.map((margin, index) => {
@@ -510,8 +520,10 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
       const {platform, paddingFormat, selectedFontSize} = paddingSetting;
       const selectedLineHeight = selected?.node?.style?.lineHeight
       const targetLineHeight = target?.node?.style?.lineHeight
-      const hasSelectedPadding = selectedLineHeight === selectedFontSize
-      const hasTargetPadding = targetLineHeight === targetFontSize
+      // TODO: 字padding判断，先统一都加上字padding
+      const hasSelectedPadding = true
+      const hasTargetPadding = true
+
       if (sortedVNumbers[1] - sortedVNumbers[0] !== 0) {
         let diff = 0;
         if(paddingFormat) {
@@ -529,7 +541,8 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
           x: x / pw,
           y: (sortedVNumbers[0])/ ph,
           h: (sortedVNumbers[1] - sortedVNumbers[0]) / ph,
-          distance: toFixed(sortedVNumbers[1] - sortedVNumbers[0]- diff),
+          distance: toFixed(sortedVNumbers[1] - sortedVNumbers[0]),
+          diff: -diff,
         })
       }
       if (sortedVNumbers[3] - sortedVNumbers[2] !== 0) {
@@ -551,7 +564,8 @@ export const calculateMarkData = (selected, target, pageRect, paddingSetting) =>
           x: x / pw,
           y: (sortedVNumbers[2])/ ph,
           h: (sortedVNumbers[3] - sortedVNumbers[2]) / ph,
-          distance: toFixed(sortedVNumbers[3] - sortedVNumbers[2]- diff),
+          distance: toFixed(sortedVNumbers[3] - sortedVNumbers[2]),
+          diff: -diff,
         })
       }
       if (sortedHNumbers[1] - sortedHNumbers[0] !== 0) {

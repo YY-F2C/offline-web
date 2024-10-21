@@ -23,6 +23,7 @@
       top: 50%;
       left: 3px;
       transform: translateY(-50%);
+      z-index: 2;
     }
   }
   &-h{
@@ -36,6 +37,7 @@
       bottom: 3px;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 2;
     }
   }
 }
