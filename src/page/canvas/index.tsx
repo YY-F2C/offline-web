@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { WithCopy } from 'components/utilities'
 import { withGlobalContextConsumer } from 'contexts/GlobalContext'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Copy } from 'react-feather'
 import { calculateMarkData, generateRects, toPercentage } from 'utils/mark'
 import Dimension from './Dimension'
@@ -11,10 +11,10 @@ import './canvas.scss'
 import canvasWrapper from './canvasWrapper'
 import useBearStore from '../../store'
 import { IPageRect, IRectNode } from '../../types'
-import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS,WEB_MULTIPLE } from 'src/utils/const'
+import { MUZHI_PADDING_Android, MUZHI_PADDING_IOS,WEB_MULTIPLE, HEALTH } from 'src/utils/const'
 import { Button, Form } from 'antd'
 
-const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE]
+const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, HEALTH, HEALTH]
 export interface CanverProps{
   currentImageUrl:string
   canvasData: any
@@ -79,9 +79,17 @@ function Canvas(props: CanverProps){
   // 改变选中后的高度和top值
   const getLayerBoundStyle = rect => {
     let {top, left, width, height} = rect.maskedBound || rect 
-    const {platform, paddingFormat, resolution} = globalSettings;
+    const {platform, paddingFormat, resolution, unit} = globalSettings;
+
+    let scaled = 1;
+    if(unit === 0 || unit === 1) {
+      scaled = 1;
+    }else {
+      scaled = resolutions[platform][resolution].value
+    }
     
-    const selectedFontSize = rect?.node?.style?.fontSize * resolutions[platform][resolution].value
+    const selectedFontSize = rect?.node?.style?.fontSize * scaled
+    const selectedFontSizeAndroid = selectedFontSize * 1080 / 1242;
     
     if(paddingFormat && selectedFontSize) {
       if((platform === 1 || platform === 3) && MUZHI_PADDING_IOS[selectedFontSize]) {
@@ -206,10 +214,18 @@ function Canvas(props: CanverProps){
       setClosestComponent(closestComponent)
   }
   const onHover = (rect, index) => {
-    const {platform, paddingFormat, resolution} = globalSettings
-    const selectedFontSize = (elementData?.node?.style?.fontSize || 0) * resolutions[platform][resolution].value;
+    const {platform, paddingFormat, resolution, unit} = globalSettings
+
+    let scaled = 1;
+    if(unit === 0 || unit === 1) {
+      scaled = 1;
+    }else {
+      scaled = resolutions[platform][resolution].value
+    }
+    const selectedFontSize = (elementData?.node?.style?.fontSize || 0) * scaled;
+    const targetFontSize = (rect?.node?.style?.fontSize || 0) * scaled;
     
-    const markData = calculateMarkData(selectedRect, rect, pageRect, {platform, paddingFormat, selectedFontSize})
+    const markData = calculateMarkData(selectedRect, rect, pageRect, {platform, paddingFormat, selectedFontSize, targetFontSize})
     const {closedCommonParentPath, closedCommonParent} = getClosedCommonParent(rect, selectedRect)
       setHoveredRect(rect)
       setHoveredIndex(index)
@@ -269,9 +285,19 @@ function Canvas(props: CanverProps){
     generateMark();
   }, [globalSettings.disableInspectInComponent, globalSettings.disableInspectExportInner]);
   
-    const {disableInspectInComponent, platform, resolution} = globalSettings
+    const {disableInspectInComponent, platform, resolution, unit} = globalSettings
     const frameStyle = getBound()
-    const selectedFontSize = (elementData?.node?.style?.fontSize || 0) * resolutions[platform][resolution].value;
+
+    const selectedFontSize = useMemo(() => {
+      let scaled = 1;
+      if(unit === 0 || unit === 1) {
+        scaled = 1;
+      }else {
+        scaled = resolutions[platform][resolution].value
+      }
+      return (elementData?.node?.style?.fontSize || 0) * scaled;
+    },[elementData, unit, platform, resolution])
+
 
     // 选中不需要hover直接展示尺寸
     const isDimensionShow = () => {
@@ -349,6 +375,10 @@ function Canvas(props: CanverProps){
                     isShow={isDimensionShow()}
                   />
                 ))}
+                <div className="anchor-top-left"></div>
+                <div className="anchor-top-right"></div>
+                <div className="anchor-bottom-left"></div>
+                <div className="anchor-bottom-right"></div>
               </div>
             )
           })}

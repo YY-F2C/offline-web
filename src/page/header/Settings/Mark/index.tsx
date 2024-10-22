@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
 import { useGlobalContext } from 'contexts/GlobalContext';
 import FormConfigProvider from 'contexts/FormConfigProvider';
-import { ANDROID_DENSITY, IOS_DENSITY, NUMBER_FORMATS, PLATFORMS, UNITS, WEB_MULTIPLE } from 'utils/const';
+import { ANDROID_DENSITY, IOS_DENSITY, NUMBER_FORMATS, PLATFORMS, UNITS, WEB_MULTIPLE, HEALTH } from 'utils/const';
 import styles from './index.module.scss';
 
-const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE]
+const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, HEALTH, HEALTH]
 const { Option } = Select;
 
 const MarkSettings = () => {
@@ -111,7 +111,7 @@ const MarkSettings = () => {
                 getPopupContainer={triggerNode => triggerNode.parentNode}
                 disabled={baseVisible}
               >
-                {WEB_MULTIPLE.map((resolution: string, index: number) => (
+                {resolutions[platform].map((resolution: string, index: number) => (
                     <Option key={index} value={index}>
                       {resolution.label}
                     </Option>
@@ -146,7 +146,7 @@ const MarkSettings = () => {
               />
               </Form.Item>
           ) : null}
-           <div className={styles.settingTip}>{t('format')}</div>
+          <div className={styles.settingTip}>{t('format')}</div>
           <Form.Item label={t('number format')} name="numberFormat">
               <Select getPopupContainer={triggerNode => triggerNode.parentNode}>
               {NUMBER_FORMATS.map((format: string, index: number) => (

@@ -9,9 +9,9 @@ import {
   WEB_MULTIPLE,
 } from 'utils/const'
 import {toFixed} from 'utils/mark'
-import { MUZHI_COLOR_Android, MUZHI_COLOR_IOS, MUZHI_FONT_SIZE_IOS, MUZHI_FONT_SIZE_Android } from './const'
+import { MUZHI_COLOR_Android, MUZHI_COLOR_IOS, MUZHI_FONT_SIZE_IOS, MUZHI_FONT_SIZE_Android, HEALTH } from './const'
 
-const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE]
+const resolutions = [WEB_MULTIPLE, WEB_MULTIPLE, WEB_MULTIPLE, HEALTH, HEALTH]
 
 
 export const polyfillAlpha = alpha => (typeof alpha !== 'number' ? 1 : alpha)
@@ -445,13 +445,19 @@ export const getStyleById = (styles, nodeStyles, type = 'fill') => {
   }
 }
 
-export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat, type}, withoutUnit = false) => {
+export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat, type, diffSize = 0}, withoutUnit = false) => {
+  
+  let scaledNumber = 0
 
-  let scaledNumber = number * resolutions[platform][resolution].value
+  if(unit === 2 && (platform === 3 || platform === 4)) {
+    scaledNumber = number;
+  }else {
+    scaledNumber = number * resolutions[platform][resolution].value
+  }
 
   // 映射百度健康字体编码
   if(type === 'font-size' && (platform === 3 || platform === 4)) {
-    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[scaledNumber] : MUZHI_FONT_SIZE_Android[scaledNumber]
+    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[number] : MUZHI_FONT_SIZE_Android[number]
     if(formatSizeCode) {
       return formatSizeCode
     }
@@ -460,11 +466,11 @@ export const formattedNumber = (number, {platform, unit, resolution, remBase, nu
   // 安卓尺寸
   if(platform === 2 || platform === 4) {
     scaledNumber = scaledNumber * 1080 / 1242
-  } 
+  }
 
   const finalNumber = unit === 3 || unit === 4 ? number / remBase : scaledNumber
   const unitName = withoutUnit ? '' : UNITS[unit]
-  const size = toFixed(finalNumber, numberFormat) + unitName
+  const size = toFixed(finalNumber + diffSize, numberFormat) + unitName
   return size;
 
 }
