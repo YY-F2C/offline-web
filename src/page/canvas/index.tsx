@@ -343,7 +343,7 @@ function Canvas(props: CanverProps){
               <div
                 key={index}
                 className={cn('layer', ...clazz, {
-                  selected: selectedIndex === index,
+                  selected: selectedIndex === index && selectedIndex !== 0,
                   hovered: hoveredIndex === index && hoveredIndex !== selectedIndex,
                   'closest-component': closestComponentIndex === index,
                   'component-inspect-disabled': disableInspectInComponent && isComponent,
