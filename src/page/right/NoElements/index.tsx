@@ -4,7 +4,7 @@ import styles from './index.module'
 
 const NoElements = () => {
     const { t } = useTranslation('right');
-    console.log(t?.('no choose layer'));
+    // console.log(t?.('no choose layer'));
     
     return (
         <div className={styles.noElements}>

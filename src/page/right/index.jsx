@@ -74,7 +74,7 @@ const Right = (props) => {
   const { rightCollapse } = globalSettings
 
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
 
   const buildMark = useMemo(() => {
