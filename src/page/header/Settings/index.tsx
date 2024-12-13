@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react';
+import { useCallback, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {Select, Form, Checkbox} from 'antd';
 import { useGlobalContext } from 'contexts/GlobalContext';
@@ -19,8 +19,8 @@ const Settings = () => {
   }, [i18n, changeGlobalSetting]);
 
   const changeOtherSetting = useCallback((e) => {
-    const {checked, name} = e.target
-    changeGlobalSetting(name, checked)
+    const {checked, name} = e.target;
+    changeGlobalSetting(name, checked);
   }, [changeGlobalSetting]);
 
   return (
