@@ -509,7 +509,7 @@ export const getCode = (node, fillItems, strokeItems, effectItems, textStyle, gl
   // border-radius
   if (cornerRadius) {
     code += `border-radius: ${formattedNumber(cornerRadius, globalSettings)};\n`
-  } else if (rectangleCornerRadii) {
+  } else if (rectangleCornerRadii && rectangleCornerRadii.some(r => r !== null)) {
     code += `border-radius: ${rectangleCornerRadii.map(r => formattedNumber(r, globalSettings)).join(' ')};\n`
   }
 
@@ -546,7 +546,9 @@ export const getCode = (node, fillItems, strokeItems, effectItems, textStyle, gl
     Object.keys(effects)
       // eslint-disable-next-line
       .map(propertyName => {
-        code += `${propertyName}: ${effects[propertyName]};\n`
+        if(effects[propertyName]) {
+          code += `${propertyName}: ${effects[propertyName]};\n`
+        }     
       })
   }
 
