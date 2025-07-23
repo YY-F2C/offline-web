@@ -446,7 +446,6 @@ export const getStyleById = (styles, nodeStyles, type = 'fill') => {
 }
 
 export const formattedNumber = (number, {platform, unit, resolution, remBase, numberFormat, type, diffSize = 0}, withoutUnit = false) => {
-  
   let scaledNumber = 0
 
   if(unit === 2 && (platform === 3 || platform === 4)) {
@@ -457,7 +456,8 @@ export const formattedNumber = (number, {platform, unit, resolution, remBase, nu
 
   // 映射百度健康字体编码
   if(type === 'font-size' && (platform === 3 || platform === 4)) {
-    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[number] : MUZHI_FONT_SIZE_Android[number]
+    const fixedNumber = toFixed(number);
+    const formatSizeCode = platform === 3 ? MUZHI_FONT_SIZE_IOS[fixedNumber] : MUZHI_FONT_SIZE_Android[fixedNumber]
     if(formatSizeCode) {
       return formatSizeCode
     }
